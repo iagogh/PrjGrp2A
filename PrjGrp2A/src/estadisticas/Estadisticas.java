@@ -18,7 +18,6 @@ public class Estadisticas implements IEstadisticas {
 	private IGestionIncidencias gestorIncidencias;
 
 	public Estadisticas() {
-		super();
 	}
 
 	public Estadisticas(IGestionProcesos gestorProcesos, IGestionIncidencias gestorIncidencias) {
@@ -29,10 +28,28 @@ public class Estadisticas implements IEstadisticas {
 
 	@Override
 	public Estadistica<Incidencia> numeroIncidencias() {
-		ArrayList<Incidencia> resultado = this.gestorIncidencias.obtenerTodasIncidencias();
-		Double costemedio = this.costeMedio(resultado);
-
-		Estadistica<Incidencia> est = new Estadistica<>(costemedio, resultado);
+		ArrayList<Incidencia> setResultado = this.gestorIncidencias.obtenerTodasIncidencias();
+		ArrayList<Proceso> procesosAsociados = new ArrayList<>();
+		ArrayList<OrdenTrabajo> ordenesTmp;
+		
+		Proceso proctmp;
+		Double acumulado = 0.0;
+		
+		for(Incidencia i : setResultado) {
+			proctmp = i.getProceso();
+			if(!procesosAsociados.contains(proctmp)) {
+				procesosAsociados.add(proctmp);
+				if(proctmp.calcularCoste() > 0.0) {
+					ordenesTmp = proctmp.getOrdenesTrabajo();
+					for(OrdenTrabajo o : ordenesTmp) {
+						Float costetmp = o.getCoste();
+						acumulado += (costetmp > 0)? costetmp : 0.0; //cuidado esto es como if-else
+					}
+				}
+			}
+		}
+		
+		Estadistica<Incidencia> est = new Estadistica<>(acumulado/setResultado.size(), setResultado);
 		return est;
 	}
 
@@ -40,41 +57,77 @@ public class Estadisticas implements IEstadisticas {
 	public Estadistica<Incidencia> numeroInccidencias(Concejal responsable, Empresa empresa, Date filtroFechaIni,
 			Date filtroFechaFin) {
 		
-		ArrayList<Incidencia> resultado = this.gestorIncidencias.buscarIncidencias(null, null, filtroFechaIni, filtroFechaFin, null);
-		Double costemedio = this.costeMedio(resultado);
+		ArrayList<Incidencia> setResultado = this.gestorIncidencias.buscarIncidencias(null, null, filtroFechaIni, filtroFechaFin, null);
+		ArrayList<Proceso> procesosAsociados = new ArrayList<>();
+		ArrayList<OrdenTrabajo> ordenesTmp;
 		
-		Estadistica<Incidencia> est = new Estadistica<>(costemedio, resultado);
+		Proceso proctmp;
+		Double acumulado = 0.0;
+		
+		for(Incidencia i : setResultado) {
+			proctmp = i.getProceso();
+			if(!procesosAsociados.contains(proctmp)) {
+				procesosAsociados.add(proctmp);
+				if(proctmp.calcularCoste() > 0.0) {
+					ordenesTmp = proctmp.getOrdenesTrabajo();
+					for(OrdenTrabajo o : ordenesTmp) {
+						Float costetmp = o.getCoste();
+						acumulado += (costetmp > 0)? costetmp : 0.0; //cuidado esto es como if-else
+					}
+				}
+			}
+		}
+		
+		Estadistica<Incidencia> est = new Estadistica<>(acumulado/setResultado.size(), setResultado);
 		return est;
 	}
 
 	@Override
 	public Estadistica<Proceso> numeroProcesos() {
-		ArrayList<Proceso> procesos = this.gestorProcesos.consultarProcesos(null, null, null, null, null, null);
+		ArrayList<Proceso> setResultado = this.gestorProcesos.consultarProcesos(null, null, null, null, null, null);
+		ArrayList<OrdenTrabajo> ordenesTmp;
 		
-		Double costeProcesos = 0.0;
+		Double acumulado = 0.0;
 		
-		for(Proceso p: procesos) {
-			costeProcesos += p.calcularCoste();
+		for(Proceso p : setResultado) {
+			ordenesTmp = p.getOrdenesTrabajo();
+			for(OrdenTrabajo o : ordenesTmp) {
+				float costetmp = o.getCoste();
+				float tmp = 0.0f;
+				
+				while(tmp < costetmp) {
+					tmp += 0.1;
+					acumulado += tmp;
+				}
+			}
 		}
 		
-		costeProcesos = costeProcesos / procesos.size();
-		
-		Estadistica<Proceso> est = new Estadistica<>(costeProcesos, procesos);
+		Estadistica<Proceso> est = new Estadistica<>(acumulado/setResultado.size(), setResultado);
 		return est;
 	}
 
 	@Override
 	public Estadistica<Proceso> numeroProcesos(Concejal responsable, Empresa empresa, Date filtroFechaIni, Date filtroFechaFin) {
-		ArrayList<Proceso> procesos = this.gestorProcesos.consultarProcesos(null, null, null, null, null, null);
+		ArrayList<Proceso> setResultado = this.gestorProcesos.consultarProcesos(null, null, null, null, null, null);
 		
-		Double costeProcesos = 0.0;
-		for(Proceso p: procesos) {
-			costeProcesos += p.calcularCoste();
+		ArrayList<OrdenTrabajo> ordenesTmp;
+		
+		Double acumulado = 0.0;
+		
+		for(Proceso p : setResultado) {
+			ordenesTmp = p.getOrdenesTrabajo();
+			for(OrdenTrabajo o : ordenesTmp) {
+				float costetmp = o.getCoste();
+				float tmp = 0.0f;
+				
+				while(tmp < costetmp) {
+					tmp += 0.1;
+					acumulado += tmp;
+				}
+			}
 		}
 		
-		costeProcesos = costeProcesos / procesos.size();
-		
-		Estadistica<Proceso> est = new Estadistica<>(costeProcesos, procesos);
+		Estadistica<Proceso> est = new Estadistica<>(acumulado/setResultado.size(), setResultado);
 		return est;
 	}
 

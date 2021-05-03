@@ -47,27 +47,43 @@ public class GestionProcesos implements IGestionProcesos {
 	@Override
 	public ArrayList<Proceso> consultarProcesos(Date fechaIni, Date fechaFin, Incidencia inc, Concejal responsable,
 			EstadoAvance s, OrdenTrabajo o) {
-		return procesos.stream().filter(p -> 
-		(fechaIni == null || p.getFechaInicio().after(fechaIni) &&
-		(fechaFin == null || p.getFechaInicio().before(fechaFin)) &&
-		(inc == null || p.getIncidencias().contains(inc)) &&
-		(responsable == null || p.getResponsable().equals(responsable)) &&
-		(s == null || p.getEstado() == s) &&
-		(o == null || p.getOrdenesTrabajo().contains(o))
-		)).collect(Collectors.toCollection(ArrayList::new));
+		ArrayList<Proceso> res = new ArrayList<Proceso>();
+		for (Proceso p : procesos) {
+			if (fechaIni == null || p.getFechaInicio().after(fechaIni)) {
+				if (fechaFin == null || p.getFechaInicio().before(fechaFin)) {
+					if (inc == null || p.getIncidencias().contains(inc)) {
+						if (responsable == null || p.getResponsable().equals(responsable)) {
+							if (s == null || p.getEstado() == s) {
+								if (o == null || p.getOrdenesTrabajo().contains(o)) {
+									res.add(p);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return res;
 	}
 
 	@Override
 	public ArrayList<Proceso> consultarProcesosSinOrdenesTrabajo(Date fechaIni, Date fechaFin, Incidencia inc,
 			Concejal responsable, EstadoAvance s) {
-		return procesos.stream().filter(p -> 
-		p.getOrdenesTrabajo().isEmpty() &&
-		(fechaIni == null || p.getFechaInicio().after(fechaIni) &&
-		(fechaFin == null || p.getFechaInicio().before(fechaFin)) &&
-		(inc == null || p.getIncidencias().contains(inc)) &&
-		(responsable == null || p.getResponsable().equals(responsable)) &&
-		(s == null || p.getEstado() == s)
-		)).collect(Collectors.toCollection(ArrayList::new));
+		ArrayList<Proceso> res = new ArrayList<Proceso>();
+		for (Proceso p : procesos) {
+			if (fechaIni == null || p.getFechaInicio().after(fechaIni)) {
+				if (fechaFin == null || p.getFechaInicio().before(fechaFin)) {
+					if (inc == null || p.getIncidencias().contains(inc)) {
+						if (responsable == null || p.getResponsable().equals(responsable)) {
+							if (s == null || p.getEstado() == s) {
+								res.add(p);
+							}
+						}
+					}
+				}
+			}
+		}
+		return res;
 	}
 
 	@Override

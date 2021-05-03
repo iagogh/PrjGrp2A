@@ -23,6 +23,7 @@ public class OrdenTrabajo {
 		super();
 		material = new ArrayList<>();
 		presupuestos = new ArrayList<>();
+		coste = 0.0f;
 		fechaInicio = new Date();
 		//generacion de un id como ej OT5
 		idGenerator++;
@@ -33,6 +34,7 @@ public class OrdenTrabajo {
 		super();
 		material = new ArrayList<>();
 		presupuestos = new ArrayList<>();
+		coste = 0.0f;
 		fechaInicio = new Date();
 		this.responsable = responsable;
 		//generacion de un id como ej OT5

@@ -13,7 +13,7 @@ public class Proceso {
 	private static int idGenerator = 0; //static para que se actualice entre todos los procesos
 	private String nombre;
 	private String id;
-	private Float coste;
+	private Float coste; //si se calcula en un metodo y esta implicitamente en las OT no se por que lo guardamos
 	private ArrayList<Incidencia> incidencias;
 	private Date fechaInicio;
 	private Period tiempoEstimado;
@@ -26,6 +26,7 @@ public class Proceso {
 	
 	public Proceso(String nombre, Concejal responsable, String descripcion) {
 		this.nombre = nombre;
+		this.coste = 0.0f;
 		this.responsable = responsable;
 		this.descripcion = descripcion;
 		this.incidencias = new ArrayList<>();
@@ -46,6 +47,7 @@ public class Proceso {
 	public void vincularOrdenTrabajo(OrdenTrabajo ordenTrabajo) {
 		ordenTrabajo.setProceso(this);
 		ordenesTrabajo.add(ordenTrabajo);
+		this.coste += ordenTrabajo.getCoste();
 	}
 	
 	public Float calcularCoste() {

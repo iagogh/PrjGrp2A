@@ -8,11 +8,14 @@ import java.util.Date;
 
 import com.enso.ayuntamiento.Ciudadano;
 
+import procesos.ordenesTrabajo.OrdenTrabajo;
+
 public class GestionIncidencias implements IGestionIncidencias {
 	private ArrayList<Incidencia> incidencias;
 
 	
 	public GestionIncidencias() {
+		this.incidencias = new ArrayList<>();
 	}
 
 
@@ -52,22 +55,45 @@ public class GestionIncidencias implements IGestionIncidencias {
 	 * @return Lista con las incidencias que cumplen los criterios (puede ser vacia).
 	 */
 	@Override
-	public ArrayList<Incidencia> buscarIncidencias(String dni, String idIncidencia, Date fechaInci, Date fechaFin,
+	public ArrayList<Incidencia> buscarIncidencias(String dni, String idIncidencia, Date fechaIni, Date fechaFin,
 			TipoIncidencia tipo) {
 		
-		//se establecen los predicados de busqueda
-		Predicate<Incidencia> byDni = inc -> dni == null || inc.getDniCiudadano() == dni;
-		Predicate<Incidencia> byId = inc -> idIncidencia == null || inc.getId().equals(idIncidencia);
-		Predicate<Incidencia> byDate = inc -> fechaInci == null || inc.getFechaInicio().after(fechaInci);
-		Predicate<Incidencia> byDateFin = inc ->  fechaFin == null || inc.getFechaFin().before(fechaFin);
-		Predicate<Incidencia> byTipo = inc -> tipo == null || inc.getTipo().equals(tipo);
+		ArrayList<Incidencia> incidenciasFinales = new ArrayList<>();
+		Incidencia incidenciaAux;
+		Date fechaInicioIncidencia;
+		int i;
 		
-		//stream para aplicarle los filtros encadenadamente
-		Stream<Incidencia> resultSet =  this.incidencias.stream().filter(byDni).filter(byId).filter(byDate).filter(byDateFin).filter(byTipo);
-		//se convierte el stream de nuevo a una lista con las incidencias que pasaron todos los filtros
-		ArrayList<Incidencia> devuelto = new ArrayList<Incidencia>(resultSet.collect(Collectors.toList()));
+		//Recordar que para esta funci�n los par�metros a null significan que simplemente no buscamos por ese par�metro
 		
-		return devuelto;
+		/*Comprobaci�n de fechas*/
+		for(i=0; i<this.incidencias.size(); i++) {
+			incidenciaAux = this.incidencias.get(i);
+			fechaInicioIncidencia = incidenciaAux.getFechaInicio();
+			
+			if(fechaInicioIncidencia != null) {	//comprobamos que la fecha de la orden no sea null
+				if(fechaIni.before(fechaFin) || fechaIni == null) {	//comprobamos que las fechas introducidas est�n en orden correcto
+					if(fechaIni.before(fechaInicioIncidencia) || fechaIni == null) {	//que la inicial es anterior a la de la orden
+						if(fechaInicioIncidencia.before(fechaFin) || fechaFin == null) {	//que la final es posterior a la de la orden
+							incidenciasFinales.add(incidenciaAux);
+						}
+					}
+				}
+			}
+		}
+		
+		/*Comprobaci�n de dni del ciudadano, id de la incidencia y tipo de la incidencia, si no coinciden, se eliminan*/
+		for(i = 0; i<incidenciasFinales.size(); i++) {
+			incidenciaAux = incidenciasFinales.get(i);
+			if(!incidenciaAux.getDniCiudadano().equals(dni) && dni != null) {
+				incidenciasFinales.remove(i);
+			}else if(!incidenciaAux.getId().equals(idIncidencia) && idIncidencia != null) {
+				incidenciasFinales.remove(i);
+			}else if(!incidenciaAux.getTipo().equals(tipo) && tipo != null) {
+				incidenciasFinales.remove(i);
+			}
+		}
+		
+		return incidenciasFinales;
 	}
 	
 	

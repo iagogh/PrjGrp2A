@@ -1,19 +1,20 @@
 package estadisticas;
 
 import java.util.Date;
-
 import com.enso.ayuntamiento.Concejal;
-
+import incidencias.Incidencia;
+import procesos.Proceso;
 import procesos.ordenesTrabajo.Empresa;
+import procesos.ordenesTrabajo.OrdenTrabajo;
 
-public interface IEstadisticas<T> {
+public interface IEstadisticas {
 	
-	Estadistica<T> numeroIncidencias();
-	Estadistica<T> numeroInccidencias(Concejal responsable, Empresa empresa, Date filtroFechaIni, Date filtroFechaFin);
+	Estadistica<Incidencia> numeroIncidencias();
+	Estadistica<Incidencia> numeroInccidencias(Concejal responsable, Empresa empresa, Date filtroFechaIni, Date filtroFechaFin);
 	
-	Estadistica<T> numeroProcesos();
-	Estadistica<T> numeroProcesos(Concejal responsable, Empresa empresa, Date filtroFechaIni, Date filtroFechaFin);
+	Estadistica<Proceso> numeroProcesos();
+	Estadistica<Proceso> numeroProcesos(Concejal responsable, Empresa empresa, Date filtroFechaIni, Date filtroFechaFin);
 	
-	Estadistica<T> numeroOrdenes();
-	Estadistica<T> numeroOrdenes(Concejal responsable, Empresa empresa, Date filtroFechaIni, Date filtroFechaFin);	
+	Estadistica<OrdenTrabajo> numeroOrdenes();
+	Estadistica<OrdenTrabajo> numeroOrdenes(Concejal responsable, Empresa empresa, Date filtroFechaIni, Date filtroFechaFin);	
 }

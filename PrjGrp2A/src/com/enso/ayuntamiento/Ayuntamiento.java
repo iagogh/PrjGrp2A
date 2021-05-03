@@ -25,6 +25,7 @@ public class Ayuntamiento {
 	public static void main(String[] args) {
 		System.out.println("Bienvenido al ayuntamiento");
 		/*----ACTORES----*/
+		vecinos = new ArrayList<>();
 		Ciudadano ci1 = new Ciudadano("Jesus", "12345678A", "Rua da republica arxentina");
 		vecinos.add(ci1);
 		Ciudadano ci2 = new Ciudadano("Sergio", "12345678B", "Rua de Santiago de Chile");
@@ -32,7 +33,8 @@ public class Ayuntamiento {
 		Ciudadano ci3 = new Ciudadano("Pablo", "12345678C", "Rua Doutor Maceira");
 		vecinos.add(ci3);
 		
-		Concejal co1 = new Concejal("Blas", "87654321A", "República do Salvador");
+		concejales = new ArrayList<>();
+		Concejal co1 = new Concejal("Blas", "87654321A", "Repï¿½blica do Salvador");
 		concejales.add(co1);
 		Concejal co2 = new Concejal("Alejandro", "87654321B", "Rua da Rosa");
 		concejales.add(co2);
@@ -45,9 +47,9 @@ public class Ayuntamiento {
 		/*----INCIDENCIAS----*/
 		gestorIncidencias.presentarIncidencia(ci1, "Arreglo de acera", TipoIncidencia.Desperfectos);
 		gestorIncidencias.presentarIncidencia(ci1, "Retraso en los buses", TipoIncidencia.Transportes);
-		gestorIncidencias.presentarIncidencia(ci2, "La acera está rota", TipoIncidencia.Desperfectos);
+		gestorIncidencias.presentarIncidencia(ci2, "La acera estï¿½ rota", TipoIncidencia.Desperfectos);
 		gestorIncidencias.presentarIncidencia(ci2, "No hay recogida de basura", TipoIncidencia.Servicios);
-		gestorIncidencias.presentarIncidencia(ci3, "Republica Arxentina", "Falta una señal", TipoIncidencia.Desperfectos);
+		gestorIncidencias.presentarIncidencia(ci3, "Republica Arxentina", "Falta una seï¿½al", TipoIncidencia.Desperfectos);
 		
 		ArrayList<Incidencia> ai1 = gestorIncidencias.buscarIncidencias("12345678A", null, null, null, TipoIncidencia.Desperfectos);
 		
@@ -69,13 +71,13 @@ public class Ayuntamiento {
 		
 		ArrayList<Proceso> ps1 = gestorProcesos.consultarProcesosSinOrdenesTrabajo(null, null, null, null, null);
 		
-		/*----ÓRDENES DE TRABAJO----*/
+		/*----ï¿½RDENES DE TRABAJO----*/
 		Empresa e = new Empresa("Hotusa", "email@hotusa.com");
 		OrdenTrabajo o1 = gestorProcesos.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
 		
 		gestorProcesos.vincularOrdenTrabajo(p2, o1);
 		
-		/*----ESTADÍSTICAS----*/
+		/*----ESTADï¿½STICAS----*/
 		Estadistica est1 = estadisticas.numeroInccidencias(co2, e, null, null);
 		Estadistica est2 = estadisticas.numeroOrdenes(null, null, null, null);
 	}
