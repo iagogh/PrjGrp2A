@@ -41,15 +41,15 @@ public class GestionOrdenesTrabajo implements IGestionOrdenesTrabajo {
 		Date fechaInicioOrden;
 		int i;
 		
-		//Recordar que para esta función los parámetros a null significan que simplemente no buscamos por ese parámetro
+		//Recordar que para esta funciï¿½n los parï¿½metros a null significan que simplemente no buscamos por ese parï¿½metro
 		
-		/*Comprobación de fechas*/
+		/*Comprobaciï¿½n de fechas*/
 		for(i=0; i<this.ordenes.size(); i++) {
 			ordenAux = this.ordenes.get(i);
 			fechaInicioOrden = ordenAux.getFechaInicio();
 			
 			if(fechaInicioOrden != null) {	//comprobamos que la fecha de la orden no sea null
-				if(fechaIni.before(fechaFin) || fechaIni == null) {	//comprobamos que las fechas introducidas están en orden correcto
+				if(fechaIni.before(fechaFin) || fechaIni == null) {	//comprobamos que las fechas introducidas estï¿½n en orden correcto
 					if(fechaIni.before(fechaInicioOrden) || fechaIni == null) {	//que la inicial es anterior a la de la orden
 						if(fechaInicioOrden.before(fechaFin) || fechaFin == null) {	//que la final es posterior a la de la orden
 							ordenesFinales.add(ordenAux);
@@ -59,7 +59,7 @@ public class GestionOrdenesTrabajo implements IGestionOrdenesTrabajo {
 			}
 		}
 		
-		/*Comprobación de responsable de proceso y de orden, si no coinciden, se eliminan*/
+		/*Comprobaciï¿½n de responsable de proceso y de orden, si no coinciden, se eliminan*/
 		for(i = 0; i<ordenesFinales.size(); i++) {
 			ordenAux = ordenesFinales.get(i);
 			if(!ordenAux.getResponsable().equals(res) && res != null) {
