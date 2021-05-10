@@ -199,7 +199,7 @@ class TestGestionOrdenesTrabajo {
 		Date fechaIni = new Date(2021-1900, 01, 02) ;
 		Date fechaFin = new Date(2021-1900, 12, 12) ;
 		Empresa res = new Empresa("Electricas Pepe", "pepe@gmail.com");
-		Proceso pro = new Proceso("Ptest", null, "test");
+		Proceso pro = p;
 		
 		//Act
 		ArrayList<OrdenTrabajo> real = got.buscarOrdenes(fechaIni, fechaFin, res, pro);
@@ -239,7 +239,7 @@ class TestGestionOrdenesTrabajo {
 				);
 	}
 	
-	@DisplayName("CB_CP06-P8.4-buscarOrdenes caso de prueba en el que hay una OT almacenada previamente con responsable igual a parametro pasado como filtro y parametro distinto al pasado")
+	@DisplayName("CB_CP06-P8.4-buscarOrdenes caso de prueba en el que hay una OT almacenada previamente con responsable igual a parametro pasado como filtro y proceso distinto al pasado")
 	@Test
 	void CB_CP06_Prueba8_4_buscarOrdenes() {
 		//Arrange
@@ -262,6 +262,76 @@ class TestGestionOrdenesTrabajo {
 		assertTrue(real.isEmpty(), "Fallo al buscar Ordenes de Trabajo el resultado no es vacio");
 	}
 	
+	@DisplayName("CB_CP07-P8.4-buscarOrdenes caso de prueba en el que hay una OT almacenada previamente con responsable distinto a parametro pasado como filtro siendo este nulo y proceso distinto al pasado como filtro")
+	@Test
+	void CB_CP07_Prueba8_4_buscarOrdenes() {
+		//Arrange
+		GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
+		OrdenTrabajo ot = got.crearOrdenTrabajo(new Empresa("Electricas Pepe", "pepe@gmail.com"));
+		GestionProcesos gp = new GestionProcesos();
+		Proceso p = gp.crearNuevoProceso("Ptest", null, "test", new ArrayList());
+		gp.vincularOrdenTrabajo(p, ot);
+		
+		Date fechaIni = new Date(2021-1900, 01, 02) ;
+		Date fechaFin = new Date(2021-1900, 12, 12) ;
+		Empresa res = null;
+		Proceso pro = new Proceso("Ptest2",null,"test");
+		
+		
+		//Act
+		ArrayList<OrdenTrabajo> real = got.buscarOrdenes(fechaIni, fechaFin, res, pro);
+		
+		//Assert
+		assertTrue(real.isEmpty(), "Fallo al buscar Ordenes de Trabajo el resultado no es vacio");
+	}
 	
+	@DisplayName("CB_CP08-P8.4-buscarOrdenes caso de prueba en el que hay una OT almacenada previamente con responsable distinto a parametro pasado como filtro")
+	@Test
+	void CB_CP08_Prueba8_4_buscarOrdenes() {
+		//Arrange
+		GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
+		OrdenTrabajo ot = got.crearOrdenTrabajo(new Empresa("Electricas Pepe", "pepe@gmail.com"));
+		GestionProcesos gp = new GestionProcesos();
+		Proceso p = gp.crearNuevoProceso("Ptest", null, "test", new ArrayList());
+		gp.vincularOrdenTrabajo(p, ot);
+		
+		Date fechaIni = new Date(2021-1900, 01, 02) ;
+		Date fechaFin = new Date(2021-1900, 12, 12) ;
+		Empresa res = new Empresa("Distinto", "distinto@gmail.com");
+		Proceso pro = null;
+		
+		//Act
+		ArrayList<OrdenTrabajo> real = got.buscarOrdenes(fechaIni, fechaFin, res, pro);
+		
+		//Assert
+		assertTrue(real.isEmpty(), "Fallo al buscar Ordenes de Trabajo el resultado no es vacio");
+	}
+	
+	@DisplayName("CB_CP09-P8.4-buscarOrdenes caso de prueba en el que hay 2 OTs almacenadas previamente la primera con responsable distinto a parametro pasado como filtro y la segunda el responsable coincide pero el proceso distinto del parametro pasado")
+	@Test
+	void CB_CP09_Prueba8_4_buscarOrdenes() {
+		//Arrange
+		GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
+		
+		OrdenTrabajo ot = got.crearOrdenTrabajo(new Empresa("Electricas Pepe", "pepe@gmail.com"));
+		GestionProcesos gp = new GestionProcesos();
+		Proceso p = gp.crearNuevoProceso("Ptest", null, "test", new ArrayList());
+		gp.vincularOrdenTrabajo(p, ot);
+		
+		Proceso p2 = gp.crearNuevoProceso("Ptest2", null, "test2", new ArrayList());
+		OrdenTrabajo ot2 = got.crearOrdenTrabajo(new Empresa("Distinto", "distinto@gmail.com"));
+		gp.vincularOrdenTrabajo(p2, ot2);
+		
+		Date fechaIni = new Date(2021-1900, 01, 02) ;
+		Date fechaFin = new Date(2021-1900, 12, 12) ;
+		Empresa res = new Empresa("Distinto", "distinto@gmail.com");
+		Proceso pro = p;
+		
+		//Act
+		ArrayList<OrdenTrabajo> real = got.buscarOrdenes(fechaIni, fechaFin, res, pro);
+		
+		//Assert
+		assertTrue(real.isEmpty(), "Fallo al buscar Ordenes de Trabajo el resultado no es vacio");
+	}
 	
 }
