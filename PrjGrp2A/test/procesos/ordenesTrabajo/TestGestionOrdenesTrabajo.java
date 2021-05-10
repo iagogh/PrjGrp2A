@@ -194,7 +194,8 @@ class TestGestionOrdenesTrabajo {
 		GestionProcesos gp = new GestionProcesos();
 		Proceso p = gp.crearNuevoProceso("Ptest", null, "test", new ArrayList());
 		gp.vincularOrdenTrabajo(p, ot);
-		System.out.println(ot);
+		
+		
 		Date fechaIni = new Date(2021-1900, 01, 02) ;
 		Date fechaFin = new Date(2021-1900, 12, 12) ;
 		Empresa res = new Empresa("Electricas Pepe", "pepe@gmail.com");
@@ -209,6 +210,56 @@ class TestGestionOrdenesTrabajo {
 				() -> {assertTrue(real.size()==1, "Fallo al buscarOrdenes con OT se ha recibido un array vacío o con mas elementos de los esperados");},
 				() -> {assertSame(ot, real.get(0), "Fallo al buscarOrdenes el elemento recibido no se corresponde con el esperado");}
 				);
+	}
+	
+	@DisplayName("CB_CP05-P8.4-buscarOrdenes caso de prueba en el que hay una OT almacenada previamente con responsable igual a parametro pasado como filtro y parametro proceso a null")
+	@Test
+	void CB_CP05_Prueba8_4_buscarOrdenes() {
+		//Arrange
+		GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
+		OrdenTrabajo ot = got.crearOrdenTrabajo(new Empresa("Electricas Pepe", "pepe@gmail.com"));
+		GestionProcesos gp = new GestionProcesos();
+		Proceso p = gp.crearNuevoProceso("Ptest", null, "test", new ArrayList());
+		gp.vincularOrdenTrabajo(p, ot);
+		
+		Date fechaIni = new Date(2021-1900, 01, 02) ;
+		Date fechaFin = new Date(2021-1900, 12, 12) ;
+		Empresa res = new Empresa("Electricas Pepe", "pepe@gmail.com");
+		Proceso pro = null;
+		
+		
+		//Act
+		ArrayList<OrdenTrabajo> real = got.buscarOrdenes(fechaIni, fechaFin, res, pro);
+		
+		//Assert
+		assertAll(
+				() -> {assertNotNull(real,"Fallo al buscarOrdenes se ha recibido un nulo");},
+				() -> {assertTrue(real.size()==1, "Fallo al buscarOrdenes con OT se ha recibido un array vacío o con mas elementos de los esperados");},
+				() -> {assertSame(ot, real.get(0), "Fallo al buscarOrdenes el elemento recibido no se corresponde con el esperado");}
+				);
+	}
+	
+	@DisplayName("CB_CP06-P8.4-buscarOrdenes caso de prueba en el que hay una OT almacenada previamente con responsable igual a parametro pasado como filtro y parametro distinto al pasado")
+	@Test
+	void CB_CP06_Prueba8_4_buscarOrdenes() {
+		//Arrange
+		GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
+		OrdenTrabajo ot = got.crearOrdenTrabajo(new Empresa("Electricas Pepe", "pepe@gmail.com"));
+		GestionProcesos gp = new GestionProcesos();
+		Proceso p = gp.crearNuevoProceso("Ptest", null, "test", new ArrayList());
+		gp.vincularOrdenTrabajo(p, ot);
+		
+		Date fechaIni = new Date(2021-1900, 01, 02) ;
+		Date fechaFin = new Date(2021-1900, 12, 12) ;
+		Empresa res = new Empresa("Electricas Pepe", "pepe@gmail.com");
+		Proceso pro = new Proceso("Ptest2",null,"test");
+		
+		
+		//Act
+		ArrayList<OrdenTrabajo> real = got.buscarOrdenes(fechaIni, fechaFin, res, pro);
+		
+		//Assert
+		assertTrue(real.isEmpty(), "Fallo al buscar Ordenes de Trabajo el resultado no es vacio");
 	}
 	
 	
