@@ -118,9 +118,19 @@ public class Incidencia {
 		this.fechaFin = new Date();
 	}
 	
+	
+	public boolean equals(Object anObject) {
+		if(anObject instanceof Incidencia) {
+			Incidencia incidencia=(Incidencia) anObject;
+			if(incidencia.getId().equals(this.getId())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public String emitirNotificacion() {
 		// TODO Determinar que se devuelve para notificar la resolucion de la incidencia.
 		return null;
 	}
-	
 }
