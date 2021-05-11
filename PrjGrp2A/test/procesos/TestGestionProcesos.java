@@ -126,6 +126,9 @@ class TestGestionProcesos {
 		gp.vincularOrdenTrabajo(p_doble_asignado, ot);
 		
 		//E QUE PROBO?¿?¿ AJAJAJAJAJAJA
+		//Vale a ver, o caso é que, se son iguais-->problema(que da sempre xdd)
+		//Entón not equals
+		assertNotEquals(p.getOrdenesTrabajo(),p_doble_asignado.getOrdenesTrabajo(),"Fallo al vincularOrdenTrabajo con la misma orden en dos procesos.");
 	}
 	
 
