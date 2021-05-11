@@ -28,10 +28,106 @@ class TestGestionProcesos {
 		fail("Not yet implemented");
 	}
 
+	@DisplayName("CP01-P4.1-vincularOrdenTrabajo caso de prueba valido con parametros validos")
 	@Test
-	void testVincularOrdenTrabajo() {
-		fail("Not yet implemented");
+	void CP01_Prueba4_1_vincularOrdenTrabajo() {
+		//Arrange
+		ArrayList<Incidencia> incidencias= new ArrayList<>();
+		Incidencia incidencia = new Incidencia(new Ciudadano("Manuel","4534535g","jauja"),null,null);
+		incidencias.add(incidencia);
+						
+		GestionProcesos gp = new GestionProcesos();
+						
+		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
+		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
+						
+		Empresa e = new Empresa("Hotusa", "email@hotusa.com");
+		OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
+		
+		//VINCULO ORDEN
+		gp.vincularOrdenTrabajo(p,ot);
+						
+		Date fecha = new Date(2020-1900, 01, 02) ;
+		Date fecha2 = new Date(2020-1900, 12, 12) ;
+						
+		ArrayList<Proceso> esperado = new ArrayList();
+		esperado.add(p);
+						
+		//Act
+		ArrayList<Proceso> real = gp.consultarProcesos(fecha, fecha2, incidencia,responsable, EstadoAvance.Iniciado,ot);
+								
+		//Assert
+		assertEquals(esperado.get(0).getOrdenesTrabajo(),real.get(0).getOrdenesTrabajo(), "Fallo al vincularOrdenTrabajo con parametros validos.");
 	}
+	
+	@DisplayName("CP02-P4.1-vincularOrdenTrabajo caso de prueba no valido con proceso vacio")
+	@Test
+	void CP02_Prueba4_1_vincularOrdenTrabajo() {
+		//Arrange
+		ArrayList<Incidencia> incidencias= new ArrayList<>();
+		Incidencia incidencia = new Incidencia(new Ciudadano("Manuel","4534535g","jauja"),null,null);
+		incidencias.add(incidencia);
+						
+		GestionProcesos gp = new GestionProcesos();
+						
+		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
+		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);				
+		
+		Empresa e = new Empresa("Hotusa", "email@hotusa.com");
+		OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
+		
+		//VINCULO ORDEN?¿?¿?¿?
+		gp.vincularOrdenTrabajo(null,ot);
+						
+	}
+	
+	@DisplayName("CP03-P4.1-vincularOrdenTrabajo caso de prueba no valido con ")
+	@Test
+	void CP03_Prueba4_1_vincularOrdenTrabajo() {
+		//Arrange
+		ArrayList<Incidencia> incidencias= new ArrayList<>();
+		Incidencia incidencia = new Incidencia(new Ciudadano("Manuel","4534535g","jauja"),null,null);
+		incidencias.add(incidencia);
+						
+		GestionProcesos gp = new GestionProcesos();
+						
+		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
+		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);				
+		
+		Empresa e = new Empresa("Hotusa", "email@hotusa.com");
+		OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
+		
+		//VINCULO ORDEN?¿?¿?¿?
+		gp.vincularOrdenTrabajo(p,null);
+	}
+	
+	@DisplayName("CP04-P4.1-vincularOrdenTrabajo caso de prueba no valido ")
+	@Test
+	void CP04_Prueba4_1_vincularOrdenTrabajo() {
+		//Arrange
+		ArrayList<Incidencia> incidencias= new ArrayList<>();
+		Incidencia incidencia = new Incidencia(new Ciudadano("Manuel","4534535g","jauja"),null,null);
+		incidencias.add(incidencia);
+						
+		GestionProcesos gp = new GestionProcesos();
+						
+		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
+		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);				
+		
+		Empresa e = new Empresa("Hotusa", "email@hotusa.com");
+		OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
+		
+		//ASIGNO UNHA VEZ
+		gp.vincularOrdenTrabajo(p,ot);
+		
+		Proceso p_doble_asignado = gp.crearNuevoProceso("Cambiar luces", responsable, "Hay que cambiar las luces", incidencias);				
+		
+		//ASIGNO DUAS VECES
+		gp.vincularOrdenTrabajo(p_doble_asignado, ot);
+		
+		//E QUE PROBO?¿?¿ AJAJAJAJAJAJA
+	}
+	
 
 	@DisplayName("CP01-P2.1-consultarProcesos caso de prueba valido con parametros validos.")
 	@Test
