@@ -334,4 +334,55 @@ class TestGestionOrdenesTrabajo {
 		assertTrue(real.isEmpty(), "Fallo al buscar Ordenes de Trabajo el resultado no es vacio");
 	}
 	
+	
+	//A PARTIR DE AQUÍ NADA TEN XEITO, PERO POR CULPA DO SEU CÓDIGO, NO MIÑA
+	//Para aclarar, no creador/constructor de ot pasan unha empresa responsable
+	//Peeero, sen embargo, teñen un asignar responsable, así que estarían facendo dúas veces un set de responsable
+	//NADA TEN XEITO, TODO DA ASCO
+	@DisplayName("CP01-P6.1-asignarResponsable caso de prueba valido con parametros validos.")
+	@Test
+	void CP01_Prueba6_1_asignarResponsable() {
+		//Arrange
+		GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
+		Empresa responsable=new Empresa("Electricas Pepe", "pepe@gmail.com");
+		
+		OrdenTrabajo ot = got.crearOrdenTrabajo(responsable);
+		
+		//Act
+		got.asignarResponsable(ot, responsable);
+		
+		//Assert
+		assertEquals(ot.getResponsable(),responsable,"Fallo al asignarResponsable, mal asignado responsable");
+	}
+	
+	@DisplayName("CP02-P6.1-asignarResponsable caso de prueba no valido con ordenTrabajo vacia.")
+	@Test
+	void CP02_Prueba6_1_asignarResponsable() {
+		//Arrange
+		GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
+		Empresa responsable=new Empresa("Electricas Pepe", "pepe@gmail.com");
+				
+		OrdenTrabajo ot = got.crearOrdenTrabajo(responsable);
+				
+		//Act
+		got.asignarResponsable(null, responsable);
+		
+		//E agora qué
+	}
+	
+	@DisplayName("CP03-P6.1-asignarResponsable caso de prueba no valido con responsable no valido.")
+	@Test
+	void CP03_Prueba6_1_asignarResponsable() {
+		//Arrange
+		GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
+		Empresa responsable=new Empresa("Electricas Pepe", "pepe@gmail.com");
+				
+		OrdenTrabajo ot = got.crearOrdenTrabajo(responsable);
+				
+		//Act
+		got.asignarResponsable(ot, null);
+		
+		//E agora qué
+	}
+	
 }
