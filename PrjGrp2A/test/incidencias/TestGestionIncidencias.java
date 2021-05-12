@@ -15,7 +15,7 @@ class TestGestionIncidencias {
 
 	@DisplayName("CP01-P9.1_presentarIncidencia en el que se comprueba el funcionamiento de la creacion para unos parametros validos: Vecino, Localizacion, Descripcion y Tipo")
 	@Test
-	void CP01_Prueba8_1_presentarIncidencia() {
+	void CP01_Prueba9_1_presentarIncidencia() {
 		//Arrange
 		GestionIncidencias gi = new GestionIncidencias();
 		Ciudadano v = new Ciudadano("Pepe", "77777777Z", "Calle callejero", "666666666");

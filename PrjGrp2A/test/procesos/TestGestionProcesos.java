@@ -19,9 +19,25 @@ import procesos.ordenesTrabajo.OrdenTrabajo;
 class TestGestionProcesos {
 
 	//////////////CAIXA NEGRA
+	@DisplayName("CP01-P9.2_crearNuevoProceso en el que se comprueba el funcionamiento de la creacion para unos parametros validos")
 	@Test
-	void testCrearNuevoProceso() {
-		fail("Not yet implemented");
+	void CP01_Prueba9_2_crearNuevoProceso() {
+		//Arrange
+		GestionProcesos gp = new GestionProcesos();
+		String nombre = "Proceso de Prueba";
+		Concejal responsable = new Concejal("Pepe", "77777777Z", "Calle callejero", "666666666");
+		String descripcion = "Descripcion de prueba para la creacion de una incidencia de prueba";
+		ArrayList<Incidencia> incidencias = new ArrayList();
+		//Act
+		Proceso creado = gp.crearNuevoProceso(nombre, responsable, descripcion, incidencias);
+		ArrayList<Proceso> registrados = gp.procesos;
+		
+		//Assert
+		assertAll(
+				() -> {assertNotNull(creado,"Fallo al presentarIncidencia se ha recibido un nulo");},
+				() -> {assertTrue(registrados.size()==1, "Fallo al PresentarIncidencia se ha recibido un array de registradas vacÃ­o o con mas elementos de los esperados");},
+				() -> {assertSame(creado, registrados.get(0), "Fallo al presentarIncidencia el elemento recibido no se corresponde con el esperado");}
+				);
 	}
 
 	@Test
@@ -77,7 +93,7 @@ class TestGestionProcesos {
 		Empresa e = new Empresa("Hotusa", "email@hotusa.com");
 		OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
 		
-		//VINCULO ORDEN?¿?¿?¿?
+		//VINCULO ORDEN?ï¿½?ï¿½?ï¿½?
 		gp.vincularOrdenTrabajo(null,ot);
 						
 	}
@@ -98,7 +114,7 @@ class TestGestionProcesos {
 		Empresa e = new Empresa("Hotusa", "email@hotusa.com");
 		OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
 		
-		//VINCULO ORDEN?¿?¿?¿?
+		//VINCULO ORDEN?ï¿½?ï¿½?ï¿½?
 		gp.vincularOrdenTrabajo(p,null);
 	}
 	
@@ -126,9 +142,9 @@ class TestGestionProcesos {
 		//ASIGNO DUAS VECES
 		gp.vincularOrdenTrabajo(p_doble_asignado, ot);
 		
-		//E QUE PROBO?¿?¿ AJAJAJAJAJAJA
-		//Vale a ver, o caso é que, se son iguais-->problema(que da sempre xdd)
-		//Entón not equals
+		//E QUE PROBO?ï¿½?ï¿½ AJAJAJAJAJAJA
+		//Vale a ver, o caso ï¿½ que, se son iguais-->problema(que da sempre xdd)
+		//Entï¿½n not equals
 		assertNotEquals(p.getOrdenesTrabajo(),p_doble_asignado.getOrdenesTrabajo(),"Fallo al vincularOrdenTrabajo con la misma orden en dos procesos.");
 	}
 	
@@ -468,7 +484,7 @@ class TestGestionProcesos {
 	
 	
 	///////////////////CAIXA BLANCA
-	@DisplayName("CB-CP01-P2.1-consultarProcesos caso de prueba valido con ningún proceso en el sistema.")
+	@DisplayName("CB-CP01-P2.1-consultarProcesos caso de prueba valido con ningï¿½n proceso en el sistema.")
 	@Test
 	void CB_CP01_Prueba2_1_consultarProcesos() {
 		//Arrange
@@ -578,7 +594,7 @@ class TestGestionProcesos {
 		assertTrue(resultado.isEmpty(), "Fallo al consultarProcesos con fechaIni posterior a fechaIni_proceso");
 	}
 	
-	//ESTO É EXACTAMENTE IGUAL AO CASO ANTERIOR-->ABSURDO NON? NON, CAMBIALO
+	//ESTO ï¿½ EXACTAMENTE IGUAL AO CASO ANTERIOR-->ABSURDO NON? NON, CAMBIALO
 	@DisplayName("CB-CP05-P2.1-consultarProcesos caso de prueba valido con fechaFin anterior a fechaFin_proceso.")
 	@Test
 	void CB_CP05_Prueba2_1_consultarProcesos() {
@@ -612,7 +628,7 @@ class TestGestionProcesos {
 		//Arrange
 		ArrayList<Incidencia> incidencias= new ArrayList<>();
 		Incidencia incidencia = new Incidencia(new Ciudadano("Manuel","4534535g","jauja"),null,null);
-		Incidencia incidencia_proba = new Incidencia(new Ciudadano("José","4534535r","jaja"),null,null);
+		Incidencia incidencia_proba = new Incidencia(new Ciudadano("Josï¿½","4534535r","jaja"),null,null);
 		incidencias.add(incidencia);
 		
 		GestionProcesos gp = new GestionProcesos();
@@ -643,7 +659,7 @@ class TestGestionProcesos {
 		
 		GestionProcesos gp = new GestionProcesos();
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
-		Concejal responsable_proba=new Concejal("Pepe", "45959101F", "A Coruña", "666666666");
+		Concejal responsable_proba=new Concejal("Pepe", "45959101F", "A Coruï¿½a", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
 		
 		Date fecha = new Date(2020-1900, 12, 12) ;
@@ -696,7 +712,7 @@ class TestGestionProcesos {
 		
 		GestionProcesos gp = new GestionProcesos();
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
-		Concejal responsable_proba=new Concejal("Pepe", "45959101F", "A Coruña", "666666666");
+		Concejal responsable_proba=new Concejal("Pepe", "45959101F", "A Coruï¿½a", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
 		
 		Date fecha = new Date(2020-1900, 12, 12) ;
@@ -718,7 +734,7 @@ class TestGestionProcesos {
 	@DisplayName("CB-CP010-P2.1-consultarProcesos caso de prueba valido con fechaIni null y fechaFin anterior a fechaFin_proceso.")
 	@Test
 	void CB_CP010_Prueba2_1_consultarProcesos() {
-		//NON TEÑO FECHA FIN
+		//NON TEï¿½O FECHA FIN
 	}
 	
 	@DisplayName("CB-CP011-P2.1-consultarProcesos caso de prueba valido con fechas nulas e incidencias no coincidentes.")

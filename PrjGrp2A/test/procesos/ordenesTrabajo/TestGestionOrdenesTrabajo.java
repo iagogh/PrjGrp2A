@@ -14,24 +14,25 @@ import org.junit.jupiter.api.Test;
 
 class TestGestionOrdenesTrabajo {
 
-	@DisplayName("CP01-P8.1_presentarIncidencia en el que se comprueba el funcionamiento de la creacion para unos parametros validos")
+	@DisplayName("CP01-P9.3_crearOrdenTrabajo en el que se comprueba el funcionamiento de la creacion para unos parametros validos")
 	@Test
-	void CP01_Prueba8_1_buscarOrdenes() {
+	void CP01_Prueba9_3_buscarOrdenes() {
 		//Arrange
 		GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
-		OrdenTrabajo ot = got.crearOrdenTrabajo(new Empresa("Electricas Pepe", "pepe@gmail.com"));
-		Date fechaIni = new Date(2021-1900, 01, 02) ;
-		Date fechaFin = new Date(2021-1900, 12, 12) ;
-		Empresa res = null;
-		Proceso pro = null;
-		ArrayList<OrdenTrabajo> esperado = new ArrayList();
-		esperado.add(ot);
+		Empresa responsable = new Empresa("Electricas Pepe", "pepe@gmail.com");
 	
+		
 		//Act
-		ArrayList<OrdenTrabajo> real = got.buscarOrdenes(fechaIni, fechaFin, res, pro);
+		OrdenTrabajo creada = got.crearOrdenTrabajo(responsable);
+		ArrayList<OrdenTrabajo> registradas = got.buscarOrdenes(null, null, null, null); 
+		got.buscarOrdenes(null, null, null, null); //unica forma de obtener todas las registradas
 		
 		//Assert
-		assertEquals(esperado,real, "Fallo al buscarOrdenes con parámetros de búsqueda válidos");
+		assertAll(
+				() -> {assertNotNull(creada,"Fallo al crearIncidencia se ha recibido un nulo");},
+				() -> {assertTrue(registradas.size()==1, "Fallo al PresentarIncidencia se ha recibido un array de registradas vacío o con mas elementos de los esperados");},
+				() -> {assertSame(creada, registradas.get(0), "Fallo al presentarIncidencia el elemento recibido no se corresponde con el esperado");}
+				);
 	}
 	
 	@DisplayName("CP01-P5.1-buscarOrdenes caso de prueba valido con parametros validos.")
