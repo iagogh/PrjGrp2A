@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 class TestGestionIncidencias {
 
-	@DisplayName("CP01-P8.1_presentarIncidencia en el que se comprueba el funcionamiento de la creacion para unos parametros validos: Vecino, Localizacion, Descripcion y Tipo")
+	@DisplayName("CP01-P9.1_presentarIncidencia en el que se comprueba el funcionamiento de la creacion para unos parametros validos: Vecino, Localizacion, Descripcion y Tipo")
 	@Test
 	void CP01_Prueba8_1_presentarIncidencia() {
 		//Arrange
