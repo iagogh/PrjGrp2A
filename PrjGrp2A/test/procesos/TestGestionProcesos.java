@@ -549,7 +549,9 @@ class TestGestionProcesos {
 		assertEquals(esperado,resultado, "Fallo al consultarProcesos con parametros nulos");
 	}
 	
-	@DisplayName("CB-CP04-P2.1-consultarProcesos caso de prueba valido con fechaIni posterior a fechaFin.")
+	
+	/////CAMBIAR OS DE FECHA QUE OS FIXEN MAL
+	@DisplayName("CB-CP04-P2.1-consultarProcesos caso de prueba valido con fechaIni posterior a fechaIni_proceso.")
 	@Test
 	void CB_CP04_Prueba2_1_consultarProcesos() {
 		//Arrange
@@ -560,9 +562,10 @@ class TestGestionProcesos {
 		GestionProcesos gp = new GestionProcesos();
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
+		p.setFechaInicio(new Date(2020-1900, 12, 12));
 		
-		Date fecha = new Date(2020-1900, 12, 12) ;
-		Date fecha2 = new Date(2020-1900, 01, 02) ;
+		Date fecha = new Date(2020-1900, 01, 02) ;
+		Date fecha2 = new Date(2020-1900, 12, 12) ;
 		
 		Empresa e = new Empresa("Hotusa", "email@hotusa.com");
 		OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
@@ -572,11 +575,11 @@ class TestGestionProcesos {
 		ArrayList<Proceso> resultado = gp.consultarProcesos(fecha, fecha2, incidencia ,responsable, EstadoAvance.EnTramite, ot);
 		
 		//Assert
-		assertTrue(resultado.isEmpty(), "Fallo al consultarProcesos con fechaIni posterior a fechaFin");
+		assertTrue(resultado.isEmpty(), "Fallo al consultarProcesos con fechaIni posterior a fechaIni_proceso");
 	}
 	
-	//ESTO É EXACTAMENTE IGUAL AO CASO ANTERIOR-->ABSURDO NON?
-	@DisplayName("CB-CP05-P2.1-consultarProcesos caso de prueba valido con fechaFin anterior a fechaIni.")
+	//ESTO É EXACTAMENTE IGUAL AO CASO ANTERIOR-->ABSURDO NON? NON, CAMBIALO
+	@DisplayName("CB-CP05-P2.1-consultarProcesos caso de prueba valido con fechaFin anterior a fechaFin_proceso.")
 	@Test
 	void CB_CP05_Prueba2_1_consultarProcesos() {
 		//Arrange
@@ -587,9 +590,10 @@ class TestGestionProcesos {
 		GestionProcesos gp = new GestionProcesos();
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
+		//NON HAI FECHA FIN, QUE HAGO? ME MATO?
 		
-		Date fecha = new Date(2020-1900, 12, 12) ;
-		Date fecha2 = new Date(2020-1900, 01, 02) ;
+		Date fecha = new Date(2020-1900, 01, 02) ;
+		Date fecha2 = new Date(2020-1900, 12, 12) ;
 		
 		Empresa e = new Empresa("Hotusa", "email@hotusa.com");
 		OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
@@ -599,7 +603,7 @@ class TestGestionProcesos {
 		ArrayList<Proceso> resultado = gp.consultarProcesos(fecha, fecha2, incidencia ,responsable, EstadoAvance.EnTramite, ot);
 		
 		//Assert
-		assertTrue(resultado.isEmpty(), "Fallo al consultarProcesos con fechaFin anterior a fechaIni");
+		assertTrue(resultado.isEmpty(), "Fallo al consultarProcesos con fechaFin anterior a fechaFin_proceso");
 	}
 	
 	@DisplayName("CB-CP06-P2.1-consultarProcesos caso de prueba valido con incidencia no coincidente.")
@@ -709,5 +713,35 @@ class TestGestionProcesos {
 		
 		//Assert
 		assertTrue(resultado.isEmpty(), "Fallo al consultarProcesos con ordenTrabajo no correspondiente");
+	}
+	
+	@DisplayName("CB-CP010-P2.1-consultarProcesos caso de prueba valido con fechaIni null y fechaFin anterior a fechaFin_proceso.")
+	@Test
+	void CB_CP010_Prueba2_1_consultarProcesos() {
+		//NON TEÑO FECHA FIN
+	}
+	
+	@DisplayName("CB-CP011-P2.1-consultarProcesos caso de prueba valido con fechas nulas e incidencias no coincidentes.")
+	@Test
+	void CB_CP011_Prueba2_1_consultarProcesos() {
+		
+	}
+	
+	@DisplayName("CB-CP012-P2.1-consultarProcesos caso de prueba valido con fechas e incidencias nulas y responsable no coincidente.")
+	@Test
+	void CB_CP012_Prueba2_1_consultarProcesos() {
+		
+	}
+	
+	@DisplayName("CB-CP013-P2.1-consultarProcesos caso de prueba valido con fechas, incidencias y responsable nulos y estadoAvance no coincidente.")
+	@Test
+	void CB_CP013_Prueba2_1_consultarProcesos() {
+		
+	}
+	
+	@DisplayName("CB-CP014-P2.1-consultarProcesos caso de prueba valido con fechas, incidencias, responsable y estadoAvance nulos y ordenTrabajo no coincidente.")
+	@Test
+	void CB_CP014_Prueba2_1_consultarProcesos() {
+		
 	}
 }
