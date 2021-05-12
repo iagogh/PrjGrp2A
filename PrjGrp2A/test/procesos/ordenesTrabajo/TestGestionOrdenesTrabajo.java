@@ -14,6 +14,26 @@ import org.junit.jupiter.api.Test;
 
 class TestGestionOrdenesTrabajo {
 
+	@DisplayName("CP01-P8.1_presentarIncidencia en el que se comprueba el funcionamiento de la creacion para unos parametros validos")
+	@Test
+	void CP01_Prueba8_1_buscarOrdenes() {
+		//Arrange
+		GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
+		OrdenTrabajo ot = got.crearOrdenTrabajo(new Empresa("Electricas Pepe", "pepe@gmail.com"));
+		Date fechaIni = new Date(2021-1900, 01, 02) ;
+		Date fechaFin = new Date(2021-1900, 12, 12) ;
+		Empresa res = null;
+		Proceso pro = null;
+		ArrayList<OrdenTrabajo> esperado = new ArrayList();
+		esperado.add(ot);
+	
+		//Act
+		ArrayList<OrdenTrabajo> real = got.buscarOrdenes(fechaIni, fechaFin, res, pro);
+		
+		//Assert
+		assertEquals(esperado,real, "Fallo al buscarOrdenes con parÃ¡metros de bÃºsqueda vÃ¡lidos");
+	}
+	
 	@DisplayName("CP01-P5.1-buscarOrdenes caso de prueba valido con parametros validos.")
 	@Test
 	void CP01_Prueba5_1_buscarOrdenes() {
@@ -335,9 +355,9 @@ class TestGestionOrdenesTrabajo {
 	}
 	
 	
-	//A PARTIR DE AQUÍ NADA TEN XEITO, PERO POR CULPA DO SEU CÓDIGO, NO MIÑA
+	//A PARTIR DE AQUï¿½ NADA TEN XEITO, PERO POR CULPA DO SEU Cï¿½DIGO, NO MIï¿½A
 	//Para aclarar, no creador/constructor de ot pasan unha empresa responsable
-	//Peeero, sen embargo, teñen un asignar responsable, así que estarían facendo dúas veces un set de responsable
+	//Peeero, sen embargo, teï¿½en un asignar responsable, asï¿½ que estarï¿½an facendo dï¿½as veces un set de responsable
 	//NADA TEN XEITO, TODO DA ASCO
 	@DisplayName("CP01-P6.1-asignarResponsable caso de prueba valido con parametros validos.")
 	@Test
@@ -367,7 +387,7 @@ class TestGestionOrdenesTrabajo {
 		//Act
 		got.asignarResponsable(null, responsable);
 		
-		//E agora qué
+		//E agora quï¿½
 	}
 	
 	@DisplayName("CP03-P6.1-asignarResponsable caso de prueba no valido con responsable no valido.")
@@ -382,7 +402,7 @@ class TestGestionOrdenesTrabajo {
 		//Act
 		got.asignarResponsable(ot, null);
 		
-		//E agora qué
+		//E agora quï¿½
 	}
 	
 }
