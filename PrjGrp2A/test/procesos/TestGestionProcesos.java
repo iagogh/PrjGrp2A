@@ -882,7 +882,7 @@ class TestGestionProcesos {
 		assertTrue(resultado.isEmpty(), "Fallo al consultarProcesos con fechaIni posterior a fechaIni_proceso");
 	}
 	
-	//ESTO � EXACTAMENTE IGUAL AO CASO ANTERIOR-->ABSURDO NON? NON, CAMBIALO
+	//ESTO � EXACTAMENTE IGUAL AO CASO ANTERIOR-->ABSURDO NON? NON, CAMBIALO 
 	@DisplayName("CB-CP05-P2.1-consultarProcesos caso de prueba valido con fechaFin anterior a fechaFin_proceso.")
 	@Test
 	void CB_CP05_Prueba2_1_consultarProcesos() {
@@ -1000,7 +1000,6 @@ class TestGestionProcesos {
 		
 		GestionProcesos gp = new GestionProcesos();
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
-		Concejal responsable_proba=new Concejal("Pepe", "45959101F", "A Coru�a", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
 		
 		Date fecha = new Date(2020-1900, 12, 12) ;
@@ -1013,7 +1012,7 @@ class TestGestionProcesos {
 		gp.vincularOrdenTrabajo(p, ot);
 			
 		//Act
-		ArrayList<Proceso> resultado = gp.consultarProcesos(fecha, fecha2, incidencia ,responsable_proba, EstadoAvance.EnTramite, ot_proba);
+		ArrayList<Proceso> resultado = gp.consultarProcesos(fecha, fecha2, incidencia ,responsable, EstadoAvance.EnTramite, ot_proba);
 		
 		//Assert
 		assertTrue(resultado.isEmpty(), "Fallo al consultarProcesos con ordenTrabajo no correspondiente");
@@ -1028,24 +1027,109 @@ class TestGestionProcesos {
 	@DisplayName("CB-CP011-P2.1-consultarProcesos caso de prueba valido con fechas nulas e incidencias no coincidentes.")
 	@Test
 	void CB_CP011_Prueba2_1_consultarProcesos() {
+		//Arrange
+		ArrayList<Incidencia> incidencias= new ArrayList<>();
+		Incidencia incidencia = new Incidencia(new Ciudadano("Manuel","4534535g","jauja"),null,null);
+		Incidencia incidencia_proba = new Incidencia(new Ciudadano("Jos�","4534535r","jaja"),null,null);
+		incidencias.add(incidencia);
 		
+		GestionProcesos gp = new GestionProcesos();
+		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
+		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
+		
+		Date fecha = new Date(2020-1900, 12, 12) ;
+		Date fecha2 = new Date(2020-1900, 01, 02) ;
+		
+		Empresa e = new Empresa("Hotusa", "email@hotusa.com");
+		OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
+		gp.vincularOrdenTrabajo(p, ot);
+			
+		//Act
+		ArrayList<Proceso> resultado = gp.consultarProcesos(null, null, incidencia_proba ,responsable, EstadoAvance.EnTramite, ot);
+		
+		//Assert
+		assertTrue(resultado.isEmpty(), "Fallo al consultarProcesos con fechas nulas e incidencia no coincidente");
 	}
 	
 	@DisplayName("CB-CP012-P2.1-consultarProcesos caso de prueba valido con fechas e incidencias nulas y responsable no coincidente.")
 	@Test
 	void CB_CP012_Prueba2_1_consultarProcesos() {
+		//Arrange
+		ArrayList<Incidencia> incidencias= new ArrayList<>();
+		Incidencia incidencia = new Incidencia(new Ciudadano("Manuel","4534535g","jauja"),null,null);
+		incidencias.add(incidencia);
 		
+		GestionProcesos gp = new GestionProcesos();
+		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
+		Concejal responsable_proba=new Concejal("Pepe", "45959101F", "A Coru�a", "666666666");
+		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
+		
+		Date fecha = new Date(2020-1900, 12, 12) ;
+		Date fecha2 = new Date(2020-1900, 01, 02) ;
+		
+		Empresa e = new Empresa("Hotusa", "email@hotusa.com");
+		OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
+		gp.vincularOrdenTrabajo(p, ot);
+			
+		//Act
+		ArrayList<Proceso> resultado = gp.consultarProcesos(null, null, null ,responsable_proba, EstadoAvance.EnTramite, ot);
+		
+		//Assert
+		assertTrue(resultado.isEmpty(), "Fallo al consultarProcesos con responsable no correspondiente");
 	}
 	
 	@DisplayName("CB-CP013-P2.1-consultarProcesos caso de prueba valido con fechas, incidencias y responsable nulos y estadoAvance no coincidente.")
 	@Test
 	void CB_CP013_Prueba2_1_consultarProcesos() {
+		//Arrange
+		ArrayList<Incidencia> incidencias= new ArrayList<>();
+		Incidencia incidencia = new Incidencia(new Ciudadano("Manuel","4534535g","jauja"),null,null);
+		incidencias.add(incidencia);
 		
+		GestionProcesos gp = new GestionProcesos();
+		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
+		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
+		
+		Date fecha = new Date(2020-1900, 12, 12) ;
+		Date fecha2 = new Date(2020-1900, 01, 02) ;
+		
+		Empresa e = new Empresa("Hotusa", "email@hotusa.com");
+		OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
+		gp.vincularOrdenTrabajo(p, ot);
+			
+		//Act
+		ArrayList<Proceso> resultado = gp.consultarProcesos(null, null, null ,null, EstadoAvance.Iniciado, ot);
+		
+		//Assert
+		assertTrue(resultado.isEmpty(), "Fallo al consultarProcesos con estadoAvance no correspondiente");
 	}
 	
 	@DisplayName("CB-CP014-P2.1-consultarProcesos caso de prueba valido con fechas, incidencias, responsable y estadoAvance nulos y ordenTrabajo no coincidente.")
 	@Test
 	void CB_CP014_Prueba2_1_consultarProcesos() {
+		//Arrange
+		ArrayList<Incidencia> incidencias= new ArrayList<>();
+		Incidencia incidencia = new Incidencia(new Ciudadano("Manuel","4534535g","jauja"),null,null);
+		incidencias.add(incidencia);
 		
+		GestionProcesos gp = new GestionProcesos();
+		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
+		Concejal responsable_proba=new Concejal("Pepe", "45959101F", "A Coru�a", "666666666");
+		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
+		
+		Date fecha = new Date(2020-1900, 12, 12) ;
+		Date fecha2 = new Date(2020-1900, 01, 02) ;
+		
+		Empresa e = new Empresa("Hotusa", "email@hotusa.com");
+		OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
+		Empresa e_proba = new Empresa("Trivago", "email@trivago.com");
+		OrdenTrabajo ot_proba = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e_proba);
+		gp.vincularOrdenTrabajo(p, ot);
+			
+		//Act
+		ArrayList<Proceso> resultado = gp.consultarProcesos(null, null, null ,null, null, ot_proba);
+		
+		//Assert
+		assertTrue(resultado.isEmpty(), "Fallo al consultarProcesos con todo nulo excepto OT, y no coincidente");
 	}
 }
