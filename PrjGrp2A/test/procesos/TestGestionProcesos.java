@@ -81,7 +81,7 @@ class TestGestionProcesos {
 		ArrayList<Proceso> real = gp.consultarProcesosSinOrdenesTrabajo(fecha, fecha2, incidencia,responsable, EstadoAvance.EnTramite);
 		
 		//Assert
-		assertEquals(esperado,real, "Fallo al consultarProcesosSinOrdenesTrabajo con fechaIni incorrecto");
+		assertTrue(real.isEmpty(), "Fallo al consultarProcesosSinOrdenesTrabajo con fechaIni incorrecto");
 	}
 	
 	@DisplayName("CP03-P2.2-consultarProcesosSinOrdenesTrabajo caso de prueba no valido con fechaIni posterior a fechaFin.")
@@ -94,7 +94,7 @@ class TestGestionProcesos {
 		GestionProcesos gp = new GestionProcesos();
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
-		p.setFechaInicio(new Date(2020-1900, 12, 12));
+		p.setFechaInicio(new Date(2020-1900, 12, 30));
 		Date fecha = new Date(2020-1900, 12, 12) ;
 		Date fecha2 = new Date(2020-1900, 01, 02) ;
 		ArrayList<Proceso> esperado = new ArrayList();
@@ -104,7 +104,7 @@ class TestGestionProcesos {
 		ArrayList<Proceso> real = gp.consultarProcesosSinOrdenesTrabajo(fecha, fecha2, incidencia,responsable, EstadoAvance.EnTramite);
 		
 		//Assert
-		assertEquals(esperado,real, "Fallo al consultarProcesosSinOrdenesTrabajo con fechaIni mayor que fechaFinal");
+		assertTrue(real.isEmpty(), "Fallo al consultarProcesosSinOrdenesTrabajo con fechaIni mayor que fechaFinal");
 	}
 
 	@DisplayName("CP04-P2.2-consultarProcesosSinOrdenesTrabajo caso de prueba no valido con incidencia vacio.")
@@ -318,7 +318,7 @@ class TestGestionProcesos {
 		assertEquals(esperado, real, "Fallo al consultarProcesosSinOrdenesTrabajo con todos los filtros a null");
 	}
 	
-	@DisplayName("CP07-P8.3-consultarProcesosSinOrdenesTrabajo caso de prueba no valido con fecha del proceso que el rango del filtro")
+	@DisplayName("CP07-P8.3-consultarProcesosSinOrdenesTrabajo caso de prueba no valido con fecha del proceso menor que el rango del filtro")
 	@Test
 	void CP07_Prueba8_3_consultarProcesosSinOrdenesTrabajo() {
 		//Arrange
@@ -328,7 +328,7 @@ class TestGestionProcesos {
 		GestionProcesos gp = new GestionProcesos();
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
-		p.setFechaInicio(new Date(2020-1900, 01, 05));
+		p.setFechaInicio(new Date(2020-1900, 01, 01));
 		Date fecha = new Date(2020-1900, 01, 02) ;
 		Date fecha2 = new Date(2020-1900, 12, 12) ;
 		ArrayList<Proceso> esperado = new ArrayList();
