@@ -12,6 +12,7 @@ import incidencias.TipoIncidencia;
 import procesos.GestionProcesos;
 import procesos.Proceso;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -50,9 +51,9 @@ class TestGestionIncidencias {
 		@Nested
 		@DisplayName("Caja Negra")
 		class buscarIncidenciasCajaNegra {
-			@DisplayName("CP01-Prueba1.1_buscarIncidencias con todos los argumentos correctos")
+			@DisplayName("CP01-P1.1_buscarIncidencias con todos los argumentos correctos")
 			@Test
-			void CP01_Prueba1_1_buscarIncidencias() {
+			void CP01_P1_1_buscarIncidencias() {
 				// Arrange
 				GestionIncidencias gi = new GestionIncidencias();
 				String dni = "12345678P";
@@ -81,9 +82,10 @@ class TestGestionIncidencias {
 				assertArrayEquals(esperado, obtenido, "Resúltado de búsqueda incorrecto con parámetros válidos");
 			}
 
-			@DisplayName("CP02-Prueba1.1_buscarIncidencias no válido con parámetro dni incorrecto")
+			@DisplayName("CP02-P1.1_buscarIncidencias no válido con parámetro dni incorrecto")
 			@Test
-			void CP02_Prueba1_1_buscarIncidencias() {
+			@Disabled
+			void CP02_P1_1_buscarIncidencias() {
 				// Arrange
 				GestionIncidencias gi = new GestionIncidencias();
 				String idIncidencia = "I1";
@@ -108,9 +110,9 @@ class TestGestionIncidencias {
 				assertNull(resultadoObtenido, "Prueba fallida, permite parámetro dni de un tipo no String");
 			}
 
-			@DisplayName("CP03-Prueba1.1_buscarIncidencias no válido con parámetro dni incorrecto con 8 caracteres")
+			@DisplayName("CP03-P1.1_buscarIncidencias no válido con parámetro dni incorrecto con 8 caracteres")
 			@Test
-			void CP03_Prueba1_1_buscarIncidencias() {
+			void CP03_P1_1_buscarIncidencias() {
 				// Arrange
 				GestionIncidencias gi = new GestionIncidencias();
 				String dni = "1234567F";
@@ -136,9 +138,9 @@ class TestGestionIncidencias {
 				assertNull(resultadoObtenido, "Prueba fallida, permite parámetro dni de menos de 9 caracteres");
 			}
 
-			@DisplayName("CP04-Prueba1.1_buscarIncidencias no válido con parámetro dni incorrecto con 10 caracteres")
+			@DisplayName("CP04-P1.1_buscarIncidencias no válido con parámetro dni incorrecto con 10 caracteres")
 			@Test
-			void CP04_Prueba1_1_buscarIncidencias() {
+			void CP04_P1_1_buscarIncidencias() {
 				// Arrange
 				GestionIncidencias gi = new GestionIncidencias();
 				String dni = "123456789F";
@@ -164,9 +166,9 @@ class TestGestionIncidencias {
 				assertNull(resultadoObtenido, "Prueba fallida, permite parámetro dni de más de 9 caracteres");
 			}
 
-			@DisplayName("CP05-Prueba1.1_buscarIncidencias no válido con parámetro idIncidencia incorrecto con 6 caracteres")
+			@DisplayName("CP05-P1.1_buscarIncidencias no válido con parámetro idIncidencia incorrecto con 6 caracteres")
 			@Test
-			void CP05_Prueba1_1_buscarIncidencias() {
+			void CP05_P1_1_buscarIncidencias() {
 				// Arrange
 				GestionIncidencias gi = new GestionIncidencias();
 				String dni = "12345678P";
@@ -192,10 +194,10 @@ class TestGestionIncidencias {
 				assertNull(resultadoObtenido, "Prueba fallida, permite parámetro idIncidencia con más de 5 caracteres");
 			}
 
-			@DisplayName("CP06-Prueba1.1_buscarIncidencias no válido con parámetro idIncidencia incorrecto con 4 caracteres")
+			@DisplayName("CP06-P1.1_buscarIncidencias no válido con parámetro idIncidencia incorrecto con 4 caracteres")
 			@Test
-			/* HAI QUE CAMBIAR NO DOC PORQUE SI TEN MENOS DE 4 CARACTERES É VÁLIDA */
-			void CP06_Prueba1_1_buscarIncidencias() {
+			@Disabled
+			void CP06_P1_1_buscarIncidencias() {
 				// Arrange
 				GestionIncidencias gi = new GestionIncidencias();
 				String dni = "12345678P";
@@ -222,9 +224,10 @@ class TestGestionIncidencias {
 						"Prueba fallida, permite parámetro idIncidencia incorrecto con 4 caracteres");
 			}
 
-			@DisplayName("CP07-Prueba1.1_buscarIncidencias no válido con fechaInicio distintia de tipo Date")
+			@DisplayName("CP07-P1.1_buscarIncidencias no válido con fechaInicio distintia de tipo Date")
 			@Test
-			void CP07_Prueba1_1_buscarIncidencias() {
+			@Disabled
+			void CP07_P1_1_buscarIncidencias() {
 				// Arrange
 				GestionIncidencias gi = new GestionIncidencias();
 				String dni = "12345678P";
@@ -250,9 +253,10 @@ class TestGestionIncidencias {
 				assertNull(resultadoObtenido, "Prueba fallida, permite parámetro fechaInicio distinto de tipo Date");
 			}
 
-			@DisplayName("CP08-Prueba1.1_buscarIncidencias no válido con fechaFin distintia de tipo Date")
+			@DisplayName("CP08-P1.1_buscarIncidencias no válido con fechaFin distintia de tipo Date")
 			@Test
-			void CP08_Prueba1_1_buscarIncidencias() {
+			@Disabled
+			void CP08_P1_1_buscarIncidencias() {
 				// Arrange
 				GestionIncidencias gi = new GestionIncidencias();
 				String dni = "12345678P";
@@ -278,9 +282,9 @@ class TestGestionIncidencias {
 				assertNull(resultadoObtenido, "Prueba fallida, permite parámetro fechaFin distinto de tipo Date");
 			}
 
-			@DisplayName("CP09-Prueba1.1_buscarIncidencias no válido con fechaIni > fechaFin")
+			@DisplayName("CP09-P1.1_buscarIncidencias no válido con fechaIni > fechaFin")
 			@Test
-			void CP09_Prueba1_1_buscarIncidencias() {
+			void CP09_P1_1_buscarIncidencias() {
 				// Arrange
 				GestionIncidencias gi = new GestionIncidencias();
 				String dni = "12345678P";
@@ -306,9 +310,10 @@ class TestGestionIncidencias {
 				assertNull(resultadoObtenido, "Prueba fallida, permite fechaInicio > fechaFin");
 			}
 
-			@DisplayName("CP10-Prueba1.1_buscarIncidencias no válido con parámetro tipo distinto de tipoIncidencia")
+			@DisplayName("CP10-P1.1_buscarIncidencias no válido con parámetro tipo distinto de tipoIncidencia")
 			@Test
-			void CP10_Prueba1_1_buscarIncidencias() {
+			@Disabled
+			void CP10_P1_1_buscarIncidencias() {
 				// Arrange
 				GestionIncidencias gi = new GestionIncidencias();
 				String dni = "12345678P";
@@ -339,9 +344,9 @@ class TestGestionIncidencias {
 		@Nested
 		@DisplayName("Caja Blanca")
 		class buscarIncidenciasCajaBalnca {
-			@DisplayName("CP01-Prueba8.1_buscarIncidencias lista de incidencias almacenadas en el sistema vacía")
+			@DisplayName("CP01-P8.1_buscarIncidencias lista de incidencias almacenadas en el sistema vacía")
 			@Test
-			void CP01_Prueba8_1_buscarIncidencias() {
+			void CP01_P8_1_buscarIncidencias() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -352,9 +357,9 @@ class TestGestionIncidencias {
 				assertTrue(obtenido.isEmpty(), "Prueba fallida, ha encontrado incidencias");
 			}
 
-			@DisplayName("CP02-Prueba8.1_buscarIncidencias parámetro fechaInicio != null y fechaInicio > fechaInicioIncidencia")
+			@DisplayName("CP02-P8.1_buscarIncidencias parámetro fechaInicio != null y fechaInicio > fechaInicioIncidencia")
 			@Test
-			void CP02_Prueba8_1_buscarIncidencias() {
+			void CP02_P8_1_buscarIncidencias() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -372,9 +377,9 @@ class TestGestionIncidencias {
 				assertTrue(obtenido.isEmpty(), "Prueba fallida, ha encontrado incidencias");
 			}
 
-			@DisplayName("CP03-Prueba8.1_buscarIncidencias parámetro fechaInicio != null y fechaInicioInicidencia > fechaFin")
+			@DisplayName("CP03-P8.1_buscarIncidencias parámetro fechaInicio != null y fechaInicioInicidencia > fechaFin")
 			@Test
-			void CP03_Prueba8_1_buscarIncidencias() {
+			void CP03_P8_1_buscarIncidencias() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -392,9 +397,9 @@ class TestGestionIncidencias {
 				assertTrue(obtenido.isEmpty(), "Prueba fallida, ha encontrado incidencias");
 			}
 
-			@DisplayName("CP04-Prueba8.1_buscarIncidencias con parámetros dni, idIncidencia y tipo distintos del dni, idIncidencia y tipo de las incidencias existentes en el sistema")
+			@DisplayName("CP04-P8.1_buscarIncidencias con parámetros dni, idIncidencia y tipo distintos del dni, idIncidencia y tipo de las incidencias existentes en el sistema")
 			@Test
-			void CP04_Prueba8_1_buscarIncidencias() {
+			void CP04_P8_1_buscarIncidencias() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -411,9 +416,9 @@ class TestGestionIncidencias {
 				assertTrue(obtenido.isEmpty(), "Prueba fallida, ha encontrado incidencias");
 			}
 
-			@DisplayName("CP05-Prueba8.1_buscarIncidencias con parámetros dni == null, id distinto y tipo distinto")
+			@DisplayName("CP05-P8.1_buscarIncidencias con parámetros dni == null, id distinto y tipo distinto")
 			@Test
-			void CP05_Prueba8_1_buscarIncidencias() {
+			void CP05_P8_1_buscarIncidencias() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -430,9 +435,9 @@ class TestGestionIncidencias {
 				assertTrue(obtenido.isEmpty(), "Prueba fallida, ha encontrado incidencias");
 			}
 
-			@DisplayName("CP06-Prueba8.1_buscarIncidencias con parámetros dni != null e igual al de la incidencia existente")
+			@DisplayName("CP06-P8.1_buscarIncidencias con parámetros dni != null e igual al de la incidencia existente")
 			@Test
-			void CP06_Prueba8_1_buscarIncidencias() {
+			void CP06_P8_1_buscarIncidencias() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -443,7 +448,7 @@ class TestGestionIncidencias {
 				ArrayList<Incidencia> esperado = new ArrayList<>();
 				esperado.add(incidencia);
 				vecino = new Ciudadano("Pepe", "77777777Z", "Calle callejero", "666555555");
-				incidencia = gi.presentarIncidencia(vecino, "Calle callejerao", "Descripcion",
+				gi.presentarIncidencia(vecino, "Calle callejerao", "Descripcion",
 						TipoIncidencia.Servicios);
 
 				Date fechaIni = new Date(2020 - 1900, 01, 01);
@@ -460,9 +465,9 @@ class TestGestionIncidencias {
 				});
 			}
 
-			@DisplayName("CP07-Prueba8.1_buscarIncidencias con parámetros dni distinto, id == null y tipo distinto")
+			@DisplayName("CP07-P8.1_buscarIncidencias con parámetros dni distinto, id == null y tipo distinto")
 			@Test
-			void CP07_Prueba8_1_buscarIncidencias() {
+			void CP07_P8_1_buscarIncidencias() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -479,9 +484,9 @@ class TestGestionIncidencias {
 				assertTrue(obtenido.isEmpty(), "Prueba fallida, ha encontrado incidencias");
 			}
 
-			@DisplayName("CP08-Prueba8.1_buscarIncidencias con parámetros idIncidencia != null e igual al de la incidencia existente")
+			@DisplayName("CP08-P8.1_buscarIncidencias con parámetros idIncidencia != null e igual al de la incidencia existente")
 			@Test
-			void CP08_Prueba8_1_buscarIncidencias() {
+			void CP08_P8_1_buscarIncidencias() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -491,7 +496,7 @@ class TestGestionIncidencias {
 				ArrayList<Incidencia> esperado = new ArrayList<>();
 				esperado.add(incidencia);
 				vecino = new Ciudadano("Pepe", "77777777Z", "Calle callejero", "666555555");
-				incidencia = gi.presentarIncidencia(vecino, "Calle callejerao", "Descripcion",
+				gi.presentarIncidencia(vecino, "Calle callejerao", "Descripcion",
 						TipoIncidencia.Servicios);
 
 				Date fechaIni = new Date(2020 - 1900, 01, 01);
@@ -507,9 +512,9 @@ class TestGestionIncidencias {
 				});
 			}
 
-			@DisplayName("CP09-Prueba8.1_buscarIncidencias con parámetros dni == null e id igual a id de la incidencia existente")
+			@DisplayName("CP09-P8.1_buscarIncidencias con parámetros dni == null e id igual a id de la incidencia existente")
 			@Test
-			void CP09_Prueba8_1_buscarIncidencias() {
+			void CP09_P8_1_buscarIncidencias() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -519,7 +524,7 @@ class TestGestionIncidencias {
 				ArrayList<Incidencia> esperado = new ArrayList<>();
 				esperado.add(incidencia);
 				vecino = new Ciudadano("Pepe", "77777777Z", "Calle callejero", "666555555");
-				incidencia = gi.presentarIncidencia(vecino, "Calle callejerao", "Descripcion",
+				gi.presentarIncidencia(vecino, "Calle callejerao", "Descripcion",
 						TipoIncidencia.Servicios);
 
 				Date fechaIni = new Date(2020 - 1900, 01, 01);
@@ -535,9 +540,9 @@ class TestGestionIncidencias {
 				});
 			}
 
-			@DisplayName("CP10-Prueba8.1_buscarIncidencias con parámetros dni, idIncidencia distintos y tipo == null")
+			@DisplayName("CP10-P8.1_buscarIncidencias con parámetros dni, idIncidencia distintos y tipo == null")
 			@Test
-			void CP10_Prueba8_1_buscarIncidencias() {
+			void CP10_P8_1_buscarIncidencias() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -553,9 +558,9 @@ class TestGestionIncidencias {
 				assertTrue(obtenido.isEmpty(), "Prueba fallida, ha encontrado incidencias");
 			}
 
-			@DisplayName("CP11-Prueba8.1_buscarIncidencias con parámetros dni, idIncidencia distintos y tipo igual al de la incidencia")
+			@DisplayName("CP11-P8.1_buscarIncidencias con parámetros dni, idIncidencia distintos y tipo igual al de la incidencia")
 			@Test
-			void CP11_Prueba8_1_buscarIncidencias() {
+			void CP11_P8_1_buscarIncidencias() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -572,9 +577,9 @@ class TestGestionIncidencias {
 				assertTrue(obtenido.isEmpty(), "Prueba fallida, ha encontrado incidencias");
 			}
 
-			@DisplayName("CP12-Prueba8.1_buscarIncidencias con parámetros dni == null, id distinto y tipo igual al de la incidencia existente")
+			@DisplayName("CP12-P8.1_buscarIncidencias con parámetros dni == null, id distinto y tipo igual al de la incidencia existente")
 			@Test
-			void CP12_Prueba8_1_buscarIncidencias() {
+			void CP12_P8_1_buscarIncidencias() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -591,9 +596,9 @@ class TestGestionIncidencias {
 				assertTrue(obtenido.isEmpty(), "Prueba fallida, ha encontrado incidencias");
 			}
 
-			@DisplayName("CP13-Prueba8.1_buscarIncidencias con parámetros dni == null, id == null y tipo igual al de la incidencia existente")
+			@DisplayName("CP13-P8.1_buscarIncidencias con parámetros dni == null, id == null y tipo igual al de la incidencia existente")
 			@Test
-			void CP13_Prueba8_1_buscarIncidencias() {
+			void CP13_P8_1_buscarIncidencias() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -605,7 +610,7 @@ class TestGestionIncidencias {
 				ArrayList<Incidencia> esperado = new ArrayList<>();
 				esperado.add(incidencia);
 				vecino = new Ciudadano("Pepe", "77777777Z", "Calle callejero", "666555555");
-				incidencia = gi.presentarIncidencia(vecino, "Calle callejerao", "Descripcion",
+				gi.presentarIncidencia(vecino, "Calle callejerao", "Descripcion",
 						TipoIncidencia.Servicios);
 
 				// Act
