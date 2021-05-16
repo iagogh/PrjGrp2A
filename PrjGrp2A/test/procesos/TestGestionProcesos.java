@@ -11,7 +11,9 @@ import org.junit.jupiter.api.Test;
 import com.enso.ayuntamiento.Ciudadano;
 import com.enso.ayuntamiento.Concejal;
 
+import incidencias.GestionIncidencias;
 import incidencias.Incidencia;
+import incidencias.TipoIncidencia;
 import procesos.ordenesTrabajo.Empresa;
 import procesos.ordenesTrabajo.GestionOrdenesTrabajo;
 import procesos.ordenesTrabajo.OrdenTrabajo;
@@ -40,11 +42,6 @@ class TestGestionProcesos {
 				);
 	}
 
-	@Test
-	void testVincularIncidencia() {
-		fail("Not yet implemented");
-	}
-
 	@DisplayName("CP01-P4.1-vincularOrdenTrabajo caso de prueba valido con parametros validos")
 	@Test
 	void CP01_Prueba4_1_vincularOrdenTrabajo() {
@@ -57,7 +54,9 @@ class TestGestionProcesos {
 						
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
-						
+		
+		p.setFechaInicio(new Date(2020-1900, 03, 03));				
+		
 		Empresa e = new Empresa("Hotusa", "email@hotusa.com");
 		OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
 		
@@ -77,48 +76,55 @@ class TestGestionProcesos {
 		assertEquals(esperado.get(0).getOrdenesTrabajo(),real.get(0).getOrdenesTrabajo(), "Fallo al vincularOrdenTrabajo con parametros validos.");
 	}
 	
-	@DisplayName("CP02-P4.1-vincularOrdenTrabajo caso de prueba no valido con proceso vacio")
+	@DisplayName("CP02-P4.1-vincularOrdenTrabajo caso de prueba no valido con proceso no valido")
 	@Test
 	void CP02_Prueba4_1_vincularOrdenTrabajo() {
-		//Arrange
-		ArrayList<Incidencia> incidencias= new ArrayList<>();
-		Incidencia incidencia = new Incidencia(new Ciudadano("Manuel","4534535g","jauja"),null,null);
-		incidencias.add(incidencia);
-						
+		// Arrange
 		GestionProcesos gp = new GestionProcesos();
-						
-		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
-		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);				
+
+		/*ArrayList<Incidencia> incidencias= new ArrayList<>();
+		Incidencia incidencia = new Incidencia(new Ciudadano("Manuel","4534535g","jauja"),null,null);
+		incidencias.add(incidencia);*/
+
+		//Concejal responsable = new Concejal("Javier", "45959101H", "Santiago", "666666666");
+		//Un proceso é incorrecto cando algún dos campos como incidencias é nulo
+		Proceso proceso = new Proceso("Proceso Incorrecto", null, null);
 		
 		Empresa e = new Empresa("Hotusa", "email@hotusa.com");
 		OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
 		
-		//VINCULO ORDEN?ï¿½?ï¿½?ï¿½?
-		gp.vincularOrdenTrabajo(null,ot);
-						
+		// Act
+		gp.vincularOrdenTrabajo(proceso, ot);
+		// Assert
+		assertNull(ot.getProceso(), "Prueba fallida, a la orden de trabajo se le ha asignado un proceso");	
 	}
 	
-	@DisplayName("CP03-P4.1-vincularOrdenTrabajo caso de prueba no valido con ")
+	@DisplayName("CP03-P4.1-vincularOrdenTrabajo caso de prueba no valido con ordenTrabajo no valida")
 	@Test
 	void CP03_Prueba4_1_vincularOrdenTrabajo() {
-		//Arrange
+		// Arrange
+		GestionProcesos gp = new GestionProcesos();
+
 		ArrayList<Incidencia> incidencias= new ArrayList<>();
 		Incidencia incidencia = new Incidencia(new Ciudadano("Manuel","4534535g","jauja"),null,null);
 		incidencias.add(incidencia);
-						
-		GestionProcesos gp = new GestionProcesos();
-						
-		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
-		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);				
-		
-		Empresa e = new Empresa("Hotusa", "email@hotusa.com");
-		OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
-		
-		//VINCULO ORDEN?ï¿½?ï¿½?ï¿½?
-		gp.vincularOrdenTrabajo(p,null);
+
+		Concejal responsable = new Concejal("Javier", "45959101H", "Santiago", "666666666");
+		Proceso proceso = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
+				
+		//Empresa e = new Empresa("Hotusa", "email@hotusa.com");
+		//Unha orden de traballo e non valida se non se lle pasa un responsable e ten mais parametros nulos
+		OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(null);
+		ot.setEstado(null);
+		ot.setMaterial(null);
+				
+		// Act
+		gp.vincularOrdenTrabajo(proceso, ot);
+		// Assert
+		assertNull(ot.getProceso(), "Prueba fallida, a la orden de trabajo se le ha asignado un proceso");	
 	}
 	
-	@DisplayName("CP04-P4.1-vincularOrdenTrabajo caso de prueba no valido ")
+	@DisplayName("CP04-P4.1-vincularOrdenTrabajo caso de prueba no valido con una orden de trabajo doblemente asignada")
 	@Test
 	void CP04_Prueba4_1_vincularOrdenTrabajo() {
 		//Arrange
@@ -142,9 +148,8 @@ class TestGestionProcesos {
 		//ASIGNO DUAS VECES
 		gp.vincularOrdenTrabajo(p_doble_asignado, ot);
 		
-		//E QUE PROBO?ï¿½?ï¿½ AJAJAJAJAJAJA
-		//Vale a ver, o caso ï¿½ que, se son iguais-->problema(que da sempre xdd)
-		//Entï¿½n not equals
+		//Vale a ver, o caso e que, se son iguais--> problema(que da sempre, falla)
+		//Enton not equals
 		assertNotEquals(p.getOrdenesTrabajo(),p_doble_asignado.getOrdenesTrabajo(),"Fallo al vincularOrdenTrabajo con la misma orden en dos procesos.");
 	}
 	
@@ -162,6 +167,8 @@ class TestGestionProcesos {
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
 						
+		p.setFechaInicio(new Date(2020-1900, 03, 03));
+		
 		Empresa e = new Empresa("Hotusa", "email@hotusa.com");
 		OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
 						
@@ -193,13 +200,15 @@ class TestGestionProcesos {
 								
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
-								
+		
+		p.setFechaInicio(new Date(2020-1900, 03, 03));	
+		
 		Empresa e = new Empresa("Hotusa", "email@hotusa.com");
 		OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
 								
 		gp.vincularOrdenTrabajo(p,ot);
 								
-		Date fecha = new Date("mala") ;
+		Date fecha = new Date("mala") ;  //ARREGLAR
 		Date fecha2 = new Date(2020-1900, 12, 12) ;
 										
 		//Act
@@ -221,7 +230,9 @@ class TestGestionProcesos {
 										
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
-										
+		
+		p.setFechaInicio(new Date(2020-1900, 03, 03));							
+		
 		Empresa e = new Empresa("Hotusa", "email@hotusa.com");
 		OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
 										
@@ -250,7 +261,9 @@ class TestGestionProcesos {
 												
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
-												
+		
+		p.setFechaInicio(new Date(2020-1900, 03, 03));										
+		
 		Empresa e = new Empresa("Hotusa", "email@hotusa.com");
 		OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
 												
@@ -278,7 +291,9 @@ class TestGestionProcesos {
 														
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
-														
+		
+		p.setFechaInicio(new Date(2020-1900, 03, 03));												
+		
 		Empresa e = new Empresa("Hotusa", "email@hotusa.com");
 		OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
 														
@@ -306,7 +321,9 @@ class TestGestionProcesos {
 														
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
-														
+		
+		p.setFechaInicio(new Date(2020-1900, 03, 03));												
+		
 		Empresa e = new Empresa("Hotusa", "email@hotusa.com");
 		OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
 														
@@ -334,7 +351,9 @@ class TestGestionProcesos {
 														
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
-														
+		
+		p.setFechaInicio(new Date(2020-1900, 03, 03));											
+		
 		Empresa e = new Empresa("Hotusa", "email@hotusa.com");
 		OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
 														
@@ -384,7 +403,7 @@ class TestGestionProcesos {
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
 		p.setFechaInicio(new Date(2020-1900, 03, 03));
-		Date fecha = new Date("mala") ;
+		Date fecha = new Date("mala") ;  //ARREGLAR
 		Date fecha2 = new Date(2020-1900, 12, 12) ;
 		ArrayList<Proceso> esperado = new ArrayList();
 		esperado.add(p);
@@ -808,6 +827,8 @@ class TestGestionProcesos {
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
 		
+		p.setFechaInicio(new Date(2020-1900, 03, 03));	
+		
 		Date fecha = new Date(2020-1900, 01, 02) ;
 		Date fecha2 = new Date(2020-1900, 12, 12) ;
 		
@@ -835,6 +856,8 @@ class TestGestionProcesos {
 		GestionProcesos gp = new GestionProcesos();
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
+		
+		p.setFechaInicio(new Date(2020-1900, 03, 03));	
 		
 		Date fecha = new Date(2020-1900, 01, 02) ;
 		Date fecha2 = new Date(2020-1900, 12, 12) ;
@@ -866,7 +889,8 @@ class TestGestionProcesos {
 		GestionProcesos gp = new GestionProcesos();
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
-		p.setFechaInicio(new Date(2020-1900, 12, 12));
+		
+		p.setFechaInicio(new Date(2020-1900, 01, 01));
 		
 		Date fecha = new Date(2020-1900, 01, 02) ;
 		Date fecha2 = new Date(2020-1900, 12, 12) ;
@@ -882,7 +906,7 @@ class TestGestionProcesos {
 		assertTrue(resultado.isEmpty(), "Fallo al consultarProcesos con fechaIni posterior a fechaIni_proceso");
 	}
 	
-	//ESTO ï¿½ EXACTAMENTE IGUAL AO CASO ANTERIOR-->ABSURDO NON? NON, CAMBIALO 
+	//FECHA FIN
 	@DisplayName("CB-CP05-P2.1-consultarProcesos caso de prueba valido con fechaFin anterior a fechaFin_proceso.")
 	@Test
 	void CB_CP05_Prueba2_1_consultarProcesos() {
@@ -895,6 +919,7 @@ class TestGestionProcesos {
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
 		//NON HAI FECHA FIN, QUE HAGO? ME MATO?
+		p.setFechaInicio(new Date(2020-1900, 03, 03));	
 		
 		Date fecha = new Date(2020-1900, 01, 02) ;
 		Date fecha2 = new Date(2020-1900, 12, 12) ;
@@ -923,6 +948,8 @@ class TestGestionProcesos {
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
 		
+		p.setFechaInicio(new Date(2020-1900, 03, 03));	
+		
 		Date fecha = new Date(2020-1900, 12, 12) ;
 		Date fecha2 = new Date(2020-1900, 01, 02) ;
 		
@@ -950,6 +977,8 @@ class TestGestionProcesos {
 		Concejal responsable_proba=new Concejal("Pepe", "45959101F", "A Coruï¿½a", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
 		
+		p.setFechaInicio(new Date(2020-1900, 03, 03));	
+		
 		Date fecha = new Date(2020-1900, 12, 12) ;
 		Date fecha2 = new Date(2020-1900, 01, 02) ;
 		
@@ -975,6 +1004,8 @@ class TestGestionProcesos {
 		GestionProcesos gp = new GestionProcesos();
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
+		
+		p.setFechaInicio(new Date(2020-1900, 03, 03));	
 		
 		Date fecha = new Date(2020-1900, 12, 12) ;
 		Date fecha2 = new Date(2020-1900, 01, 02) ;
@@ -1002,6 +1033,8 @@ class TestGestionProcesos {
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
 		
+		p.setFechaInicio(new Date(2020-1900, 03, 03));	
+		
 		Date fecha = new Date(2020-1900, 12, 12) ;
 		Date fecha2 = new Date(2020-1900, 01, 02) ;
 		
@@ -1021,7 +1054,7 @@ class TestGestionProcesos {
 	@DisplayName("CB-CP010-P2.1-consultarProcesos caso de prueba valido con fechaIni null y fechaFin anterior a fechaFin_proceso.")
 	@Test
 	void CB_CP010_Prueba2_1_consultarProcesos() {
-		//NON TEï¿½O FECHA FIN
+		//NON TENHO FECHA FIN
 	}
 	
 	@DisplayName("CB-CP011-P2.1-consultarProcesos caso de prueba valido con fechas nulas e incidencias no coincidentes.")
@@ -1036,6 +1069,8 @@ class TestGestionProcesos {
 		GestionProcesos gp = new GestionProcesos();
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
+		
+		p.setFechaInicio(new Date(2020-1900, 03, 03));	
 		
 		Date fecha = new Date(2020-1900, 12, 12) ;
 		Date fecha2 = new Date(2020-1900, 01, 02) ;
@@ -1064,6 +1099,8 @@ class TestGestionProcesos {
 		Concejal responsable_proba=new Concejal("Pepe", "45959101F", "A Coruï¿½a", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
 		
+		p.setFechaInicio(new Date(2020-1900, 03, 03));	
+		
 		Date fecha = new Date(2020-1900, 12, 12) ;
 		Date fecha2 = new Date(2020-1900, 01, 02) ;
 		
@@ -1089,6 +1126,8 @@ class TestGestionProcesos {
 		GestionProcesos gp = new GestionProcesos();
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
+		
+		p.setFechaInicio(new Date(2020-1900, 03, 03));	
 		
 		Date fecha = new Date(2020-1900, 12, 12) ;
 		Date fecha2 = new Date(2020-1900, 01, 02) ;
@@ -1116,6 +1155,8 @@ class TestGestionProcesos {
 		Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 		Concejal responsable_proba=new Concejal("Pepe", "45959101F", "A Coruï¿½a", "666666666");
 		Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
+		
+		p.setFechaInicio(new Date(2020-1900, 03, 03));	
 		
 		Date fecha = new Date(2020-1900, 12, 12) ;
 		Date fecha2 = new Date(2020-1900, 01, 02) ;

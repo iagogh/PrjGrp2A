@@ -367,7 +367,7 @@ class TestGestionOrdenesTrabajo {
 		GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
 		Empresa responsable=new Empresa("Electricas Pepe", "pepe@gmail.com");
 		
-		OrdenTrabajo ot = got.crearOrdenTrabajo(responsable);
+		OrdenTrabajo ot = got.crearOrdenTrabajo(responsable);  //Asignase duas veces, but idk
 		
 		//Act
 		got.asignarResponsable(ot, responsable);
@@ -376,19 +376,22 @@ class TestGestionOrdenesTrabajo {
 		assertEquals(ot.getResponsable(),responsable,"Fallo al asignarResponsable, mal asignado responsable");
 	}
 	
-	@DisplayName("CP02-P6.1-asignarResponsable caso de prueba no valido con ordenTrabajo vacia.")
+	@DisplayName("CP02-P6.1-asignarResponsable caso de prueba no valido con ordenTrabajo no valida.")
 	@Test
 	void CP02_Prueba6_1_asignarResponsable() {
 		//Arrange
 		GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
 		Empresa responsable=new Empresa("Electricas Pepe", "pepe@gmail.com");
 				
-		OrdenTrabajo ot = got.crearOrdenTrabajo(responsable);
+		OrdenTrabajo ot = got.crearOrdenTrabajo(null);
+		ot.setEstado(null);
+		ot.setMaterial(null);
 				
 		//Act
-		got.asignarResponsable(null, responsable);
+		got.asignarResponsable(ot, responsable);
 		
-		//E agora qu�
+		//Assert
+		assertNull(ot.getResponsable(), "Prueba fallida, a la orden de trabajo se le ha asignado un responsable");	
 	}
 	
 	@DisplayName("CP03-P6.1-asignarResponsable caso de prueba no valido con responsable no valido.")
@@ -396,14 +399,15 @@ class TestGestionOrdenesTrabajo {
 	void CP03_Prueba6_1_asignarResponsable() {
 		//Arrange
 		GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
-		Empresa responsable=new Empresa("Electricas Pepe", "pepe@gmail.com");
+		Empresa responsable=new Empresa(null, null);
 				
-		OrdenTrabajo ot = got.crearOrdenTrabajo(responsable);
+		OrdenTrabajo ot = got.crearOrdenTrabajo(null);
 				
 		//Act
-		got.asignarResponsable(ot, null);
+		got.asignarResponsable(ot, responsable);
 		
-		//E agora qu�
+		//Assert
+		assertNull(ot.getResponsable(), "Prueba fallida, a la orden de trabajo se le ha asignado un responsable");	
 	}
 	
 }
