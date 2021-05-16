@@ -8,6 +8,7 @@ import procesos.Proceso;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -48,18 +49,22 @@ class TestGestionOrdenesTrabajo {
 		@Nested
 		@DisplayName("Prueba5.1:BuscarOrdenes, Conjunto de casos de prueba fruto de las tecnicas aplicadas para obtencion de pruebas de caja negra")
 		class prueba5_1 {
+			
 			@DisplayName("CP01-P5.1-buscarOrdenes caso de prueba valido con parametros validos.")
 			@Test
 			void CP01_Prueba5_1_buscarOrdenes() {
-				//Arrange
+				
 				GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
-				OrdenTrabajo ot = got.crearOrdenTrabajo(new Empresa("Electricas Pepe", "pepe@gmail.com"));
+				Empresa e = new Empresa("Electricas Pepe", "pepe@gmail.com");
+				OrdenTrabajo ot = got.crearOrdenTrabajo(e);
+				//Arrange
 				Date fechaIni = new Date(2021-1900, 01, 02) ;
 				Date fechaFin = new Date(2021-1900, 12, 12) ;
 				Empresa res = null;
 				Proceso pro = null;
 				ArrayList<OrdenTrabajo> esperado = new ArrayList();
 				esperado.add(ot);
+				System.out.println(ot.getResponsable().getEmail());
 			
 				//Act
 				ArrayList<OrdenTrabajo> real = got.buscarOrdenes(fechaIni, fechaFin, res, pro);
@@ -73,7 +78,8 @@ class TestGestionOrdenesTrabajo {
 			void CP02_Prueba5_1_buscarOrdenes() {
 				//Arrange
 				GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
-				OrdenTrabajo ot = got.crearOrdenTrabajo(new Empresa("Electricas Pepe", "pepe@gmail.com"));
+				Empresa e = new Empresa("Electricas Pepe", "pepe@gmail.com");
+				OrdenTrabajo ot = got.crearOrdenTrabajo(e);
 				Date fechaFin = new Date(2021-1900, 01, 02) ;
 				Empresa res = null;
 				Proceso pro = null;
@@ -91,7 +97,8 @@ class TestGestionOrdenesTrabajo {
 			void CP03_Prueba5_1_buscarOrdenes() {
 				//Arrange
 				GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
-				OrdenTrabajo ot = got.crearOrdenTrabajo(new Empresa("Electricas Pepe", "pepe@gmail.com"));
+				Empresa e = new Empresa("Electricas Pepe", "pepe@gmail.com");
+				OrdenTrabajo ot = got.crearOrdenTrabajo(e);
 				Date fechaIni = new Date(2021-1900, 03, 03) ;
 				Date fechaFin = new Date(2021-1900, 01, 02) ;
 				Empresa res = null;
@@ -109,7 +116,8 @@ class TestGestionOrdenesTrabajo {
 			void CP04_Prueba5_1_buscarOrdenes() {
 				//Arrange
 				GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
-				OrdenTrabajo ot = got.crearOrdenTrabajo(new Empresa("Electricas Pepe", "pepe@gmail.com"));
+				Empresa e = new Empresa("Electricas Pepe", "pepe@gmail.com");
+				OrdenTrabajo ot = got.crearOrdenTrabajo(e);
 				Date fechaIni = new Date(2021-1900, 03, 03) ;
 				Empresa res = null;
 				Proceso pro = null;
@@ -126,7 +134,8 @@ class TestGestionOrdenesTrabajo {
 			void CP05_Prueba5_1_buscarOrdenes() {
 				//Arrange
 				GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
-				OrdenTrabajo ot = got.crearOrdenTrabajo(new Empresa("Electricas Pepe", "pepe@gmail.com"));
+				Empresa e = new Empresa("Electricas Pepe", "pepe@gmail.com");
+				OrdenTrabajo ot = got.crearOrdenTrabajo(e);
 				Date fechaIni = new Date(2021-1900, 01, 02) ;
 				Date fechaFin = new Date(2021-1900, 12, 12) ;
 				Empresa res = new Empresa("","");
@@ -145,7 +154,8 @@ class TestGestionOrdenesTrabajo {
 			void CP06_Prueba5_1_buscarOrdenes() {
 				//Arrange
 				GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
-				OrdenTrabajo ot = got.crearOrdenTrabajo(new Empresa("Electricas Pepe", "pepe@gmail.com"));
+				Empresa e = new Empresa("Electricas Pepe", "pepe@gmail.com");
+				OrdenTrabajo ot = got.crearOrdenTrabajo(e);
 				Date fechaIni = new Date(2021-1900, 01, 02) ;
 				Date fechaFin = new Date(2021-1900, 12, 12) ;
 				Empresa res = new Empresa("Electricas Pepe","pepe@gmail.com");
@@ -173,7 +183,6 @@ class TestGestionOrdenesTrabajo {
 				//Arrange
 				GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
 				Empresa responsable=new Empresa("Electricas Pepe", "pepe@gmail.com");
-				
 				OrdenTrabajo ot = got.crearOrdenTrabajo(responsable);
 				
 				//Act
