@@ -262,6 +262,7 @@ class TestGestionProcesos {
 				//Arrange
 				ArrayList<Incidencia> incidencias= new ArrayList<>();
 				Incidencia incidencia = new Incidencia(new Ciudadano("Manuel","4534535g","jauja"),null,null);
+				Incidencia incidencia2 = new Incidencia(new Ciudadano("","",""),null,null);
 				incidencias.add(incidencia);
 														
 				GestionProcesos gp = new GestionProcesos();
@@ -280,7 +281,7 @@ class TestGestionProcesos {
 				Date fecha2 = new Date(2020-1900, 12, 12);
 																
 				//Act
-				ArrayList<Proceso> real = gp.consultarProcesos(fecha, fecha2, null,responsable, EstadoAvance.EnTramite,ot);
+				ArrayList<Proceso> real = gp.consultarProcesos(fecha, fecha2, incidencia2,responsable, EstadoAvance.EnTramite,ot);
 																
 				//Assert
 				assertTrue(real.isEmpty(), "Fallo al consultarProcesos con parametro incidencia vacio.");
@@ -297,6 +298,7 @@ class TestGestionProcesos {
 				GestionProcesos gp = new GestionProcesos();
 																
 				Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
+				Concejal responsable2=new Concejal(null, null, null, null);
 				Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
 				
 				p.setFechaInicio(new Date(2020-1900, 03, 03));												
@@ -310,13 +312,13 @@ class TestGestionProcesos {
 				Date fecha2 = new Date(2020-1900, 12, 12);
 																		
 				//Act
-				ArrayList<Proceso> real = gp.consultarProcesos(fecha, fecha2, incidencia, null, EstadoAvance.EnTramite,ot);
+				ArrayList<Proceso> real = gp.consultarProcesos(fecha, fecha2, incidencia, responsable2, EstadoAvance.EnTramite,ot);
 																		
 				//Assert
 				assertTrue(real.isEmpty(), "Fallo al consultarProcesos con parametro responsable vacio.");
 			}
 			
-			@DisplayName("CP06-P2.1-consultarProcesos caso de prueba no valido con estadoAvance valido.")
+			@DisplayName("CP06-P2.1-consultarProcesos caso de prueba no valido con estadoAvance no valido.")
 			@Test
 			void CP06_Prueba2_1_consultarProcesos() {
 				//Arrange
@@ -363,14 +365,15 @@ class TestGestionProcesos {
 				
 				Empresa e = new Empresa("Hotusa", "email@hotusa.com");
 				OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
-																
+				OrdenTrabajo ot2 = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(null);	
+				
 				gp.vincularOrdenTrabajo(p,ot);
 																
 				Date fecha = new Date(2020-1900, 01, 02) ;
 				Date fecha2 = new Date(2020-1900, 12, 12);
 																		
 				//Act
-				ArrayList<Proceso> real = gp.consultarProcesos(fecha, fecha2, incidencia, responsable, EstadoAvance.EnTramite, null);
+				ArrayList<Proceso> real = gp.consultarProcesos(fecha, fecha2, incidencia, responsable, EstadoAvance.EnTramite, ot2);
 																		
 				//Assert
 				assertTrue(real.isEmpty(), "Fallo al consultarProcesos con parametro OrdenTrabajo vacio.");
@@ -882,7 +885,7 @@ class TestGestionProcesos {
 				ArrayList<Proceso> resultado = gp.consultarProcesos(fecha, fecha2, incidencia ,responsable, EstadoAvance.EnTramite, ot);
 				
 				//Assert
-				assertEquals(esperado,resultado, "Fallo al consultarProcesos con parametros nulos");
+				assertEquals(esperado,resultado, "Fallo al consultarProcesos con parametros coincidentes");
 			}
 			
 			
