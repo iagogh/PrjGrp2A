@@ -92,13 +92,6 @@ class TestGestionProcesos {
 			void CP02_Prueba4_1_vincularOrdenTrabajo() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
-
-				/*ArrayList<Incidencia> incidencias= new ArrayList<>();
-				Incidencia incidencia = new Incidencia(new Ciudadano("Manuel","4534535g","jauja"),null,null);
-				incidencias.add(incidencia);*/
-
-				//Concejal responsable = new Concejal("Javier", "45959101H", "Santiago", "666666666");
-				//Un proceso � incorrecto cando alg�n dos campos como incidencias � nulo
 				Proceso proceso = new Proceso("Proceso Incorrecto", null, null);
 				
 				Empresa e = new Empresa("Hotusa", "email@hotusa.com");
@@ -122,8 +115,7 @@ class TestGestionProcesos {
 
 				Concejal responsable = new Concejal("Javier", "45959101H", "Santiago", "666666666");
 				Proceso proceso = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
-						
-				//Empresa e = new Empresa("Hotusa", "email@hotusa.com");
+				
 				//Unha orden de traballo e non valida se non se lle pasa un responsable e ten mais parametros nulos
 				OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(null);
 				ot.setEstado(null);
@@ -151,16 +143,16 @@ class TestGestionProcesos {
 				Empresa e = new Empresa("Hotusa", "email@hotusa.com");
 				OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
 				
-				//ASIGNO UNHA VEZ
+				//ASIGNO UNA VEZ
 				gp.vincularOrdenTrabajo(p,ot);
 				
 				Proceso p_doble_asignado = gp.crearNuevoProceso("Cambiar luces", responsable, "Hay que cambiar las luces", incidencias);				
 				
-				//ASIGNO DUAS VECES
+				//ASIGNO DOS VECES
 				gp.vincularOrdenTrabajo(p_doble_asignado, ot);
 				
-				//Vale a ver, o caso e que, se son iguais--> problema(que da sempre, falla)
-				//Enton not equals
+				//Si son iguales--> problema
+				//Entonces not equals
 				assertNotEquals(p.getOrdenesTrabajo(),p_doble_asignado.getOrdenesTrabajo(),"Fallo al vincularOrdenTrabajo con la misma orden en dos procesos.");
 			}
 		}
@@ -243,13 +235,14 @@ class TestGestionProcesos {
 				Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 				Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
 				
-				p.setFechaInicio(new Date(2020-1900, 03, 03));							
+				p.setFechaInicio(new Date(2020-1900, 12, 13));							
 				
 				Empresa e = new Empresa("Hotusa", "email@hotusa.com");
 				OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
 												
 				gp.vincularOrdenTrabajo(p,ot);
 												
+				//No lo comprueban
 				Date fecha = new Date(2020-1900, 12, 12) ;
 				Date fecha2 = new Date(2020-1900, 01, 02);
 														
@@ -257,8 +250,10 @@ class TestGestionProcesos {
 				ArrayList<Proceso> real = gp.consultarProcesos(fecha, fecha2, incidencia,responsable, EstadoAvance.EnTramite,ot);
 														
 				//Assert
-				assertTrue(real.isEmpty(), "Fallo al consultarProcesos con parametro fechaIni posterior a fechaFin.");
-				
+				assertAll(
+						() -> {assertTrue(real.isEmpty(),"Fallo al consultarProcesos con parametro fechaIni posterior a fechaFin.");},
+						() -> {assertTrue(fecha.before(fecha2), "No se comprueba que fechaIni sea anterior a fechaFin ");}
+						);
 			}
 			
 			@DisplayName("CP04-P2.1-consultarProcesos caso de prueba no valido con incidencia vacio.")
