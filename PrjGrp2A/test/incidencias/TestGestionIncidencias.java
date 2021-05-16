@@ -316,7 +316,6 @@ class TestGestionIncidencias {
 
 			@DisplayName("CP10-P1.1_buscarIncidencias no válido con parámetro tipo distinto de tipoIncidencia")
 			@Test
-			@Disabled
 			void CP10_P1_1_buscarIncidencias() {
 				// Arrange
 				GestionIncidencias gi = new GestionIncidencias();
@@ -347,7 +346,7 @@ class TestGestionIncidencias {
 
 		@Nested
 		@DisplayName("Caja Blanca")
-		class buscarIncidenciasCajaBalnca {
+		class buscarIncidenciasCajaBlanca {
 			@DisplayName("CP01-P8.1_buscarIncidencias lista de incidencias almacenadas en el sistema vacía")
 			@Test
 			void CP01_P8_1_buscarIncidencias() {
