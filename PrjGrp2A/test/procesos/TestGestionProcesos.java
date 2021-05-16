@@ -526,11 +526,11 @@ class TestGestionProcesos {
 		}
 	
 		@Nested
-		@DisplayName("Prueba3.3: vincularIncidencia, conjunto de casos de prueba fruto de las tecnicas aplicadas para obtencion de pruebas de caja negra")
-		class prueba3_3 {
+		@DisplayName("Prueba3.1: vincularIncidencia, conjunto de casos de prueba fruto de las tecnicas aplicadas para obtencion de pruebas de caja negra")
+		class prueba3_1 {
 			@DisplayName("CP01-P3.1_vincularIncidencia valido que incluye todas las clases validas")
 			@Test
-			void CP01_P3_3_vincularIncidencia() {
+			void CP01_P3_1_vincularIncidencia() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -564,7 +564,7 @@ class TestGestionProcesos {
 
 			@DisplayName("CP02-P3.1_vincularIncidencia no válido con parámetro proceso incorrecto")
 			@Test
-			void CP02_P3_3_vincularIncidencia() {
+			void CP02_P3_1_vincularIncidencia() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -587,7 +587,7 @@ class TestGestionProcesos {
 
 			@DisplayName("CP03-P3.1_vincularIncidencia no válido con parámetro incidencias incorrecto")
 			@Test
-			void CP03_P3_3_vincularIncidencia() {
+			void CP03_P3_1_vincularIncidencia() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -609,7 +609,7 @@ class TestGestionProcesos {
 
 			@DisplayName("CP04-P3.1_vincularIncidencia válido donde el primer y el último elemento del parámetro incidencias son correctos")
 			@Test
-			void CP04_P3_3_vincularIncidencia() {
+			void CP04_P3_1_vincularIncidencia() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -655,7 +655,7 @@ class TestGestionProcesos {
 
 			@DisplayName("CP05-P3.1_vincularIncidencia no válido donde el primer elemento del parámetro incidencias es incorrecto")
 			@Test
-			void CP05_P3_3_vincularIncidencia() {
+			void CP05_P3_1_vincularIncidencia() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -692,7 +692,7 @@ class TestGestionProcesos {
 
 			@DisplayName("CP06-P3.1_vincularIncidencia no válido con parámetro incidencias vacío")
 			@Test
-			void CP06_P3_3_vincularIncidencia() {
+			void CP06_P3_1_vincularIncidencia() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -724,7 +724,7 @@ class TestGestionProcesos {
 
 			@DisplayName("CP07-P3.1_vincularIncidencia no válido con  incidencias repetidas iguales")
 			@Test
-			void CP07_P3_3_vincularIncidencia() {
+			void CP07_P3_1_vincularIncidencia() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -760,7 +760,7 @@ class TestGestionProcesos {
 
 			@DisplayName("CP08-P3.1_vincularIncidencia no válido, parámetro incidencias contiene incidencia ya asginada")
 			@Test
-			void CP08_P3_3_vincularIncidencia() {
+			void CP08_P3_1_vincularIncidencia() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
