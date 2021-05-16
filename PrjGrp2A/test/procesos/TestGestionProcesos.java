@@ -198,7 +198,7 @@ class TestGestionProcesos {
 				ArrayList<Proceso> real = gp.consultarProcesos(fecha, fecha2, incidencia,responsable, EstadoAvance.EnTramite,ot);
 										
 				//Assert
-				assertEquals(esperado,real, "Fallo al consultarProcesos con parametro fechaIni incorrecto.");
+				assertEquals(esperado,real, "Fallo al consultarProcesos con parametros correctos.");
 				
 			}
 			
@@ -419,16 +419,15 @@ class TestGestionProcesos {
 				Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 				Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
 				p.setFechaInicio(new Date(2020-1900, 03, 03));
-				Date fecha = new Date("mala") ;  //ARREGLAR
+				//Date fecha = new Date("mala") ; 
 				Date fecha2 = new Date(2020-1900, 12, 12) ;
 				ArrayList<Proceso> esperado = new ArrayList();
 				esperado.add(p);
 			
 				//Act
-				ArrayList<Proceso> real = gp.consultarProcesosSinOrdenesTrabajo(fecha, fecha2, incidencia,responsable, EstadoAvance.EnTramite);
 				
 				//Assert
-				assertTrue(real.isEmpty(), "Fallo al consultarProcesosSinOrdenesTrabajo con fechaIni incorrecto");
+				assertThrows(IllegalArgumentException.class,() -> {Date fechaIni = new Date("mala");gp.consultarProcesosSinOrdenesTrabajo(fechaIni, fecha2,incidencia,responsable, EstadoAvance.EnTramite);},"Se ha aceptado un tipo de parametro incorrecto para fechaIni" );
 			}
 			
 			@DisplayName("CP03-P2.2-consultarProcesosSinOrdenesTrabajo caso de prueba no valido con fechaIni posterior a fechaFin.")
@@ -804,7 +803,7 @@ class TestGestionProcesos {
 		@DisplayName("Prueba8.2: consultarProcesos, conjunto de casos de prueba fruto de las tecnicas aplicadas para obtencion de pruebas de caja blanca")
 		class prueba8_2 {
 			
-			@DisplayName("CB-CP01-P8.2-consultarProcesos caso de prueba valido con ning�n proceso en el sistema.")
+			@DisplayName("CB-CP01-P8.2-consultarProcesos caso de prueba valido con ningun proceso en el sistema.")
 			@Test
 			void CB_CP01_Prueba8_2_consultarProcesos() {
 				//Arrange
@@ -931,11 +930,12 @@ class TestGestionProcesos {
 				GestionProcesos gp = new GestionProcesos();
 				Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
 				Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
-				//NON HAI FECHA FIN, QUE HAGO? ME MATO?
+				
+				//Fecha Fin hace de Fecha Inicio, porque no hay fechaFin en proceso
 				p.setFechaInicio(new Date(2020-1900, 03, 03));	
 				
 				Date fecha = new Date(2020-1900, 01, 02) ;
-				Date fecha2 = new Date(2020-1900, 12, 12) ;
+				Date fecha2 = new Date(2020-1900, 01, 03) ;
 				
 				Empresa e = new Empresa("Hotusa", "email@hotusa.com");
 				OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
@@ -1067,7 +1067,31 @@ class TestGestionProcesos {
 			@DisplayName("CB-CP010-P8.2-consultarProcesos caso de prueba valido con fechaIni null y fechaFin anterior a fechaFin_proceso.")
 			@Test
 			void CB_CP010_Prueba8_2_consultarProcesos() {
-				//NON TENHO FECHA FIN
+				//NO TENGO FECHA FIN, USO FECHA INICIO
+				//Arrange
+				ArrayList<Incidencia> incidencias= new ArrayList<>();
+				Incidencia incidencia = new Incidencia(new Ciudadano("Manuel","4534535g","jauja"),null,null);
+				Incidencia incidencia_proba = new Incidencia(new Ciudadano("Jos�","4534535r","jaja"),null,null);
+				incidencias.add(incidencia);
+				
+				GestionProcesos gp = new GestionProcesos();
+				Concejal responsable=new Concejal("Javier", "45959101H", "Santiago", "666666666");
+				Proceso p = gp.crearNuevoProceso("Cambiar bombillas", responsable, "Hay que cambiar las bombillas", incidencias);
+				
+				p.setFechaInicio(new Date(2020-1900, 03, 03));	
+				
+				Date fecha2 = new Date(2020-1900, 01, 02);
+				
+				Empresa e = new Empresa("Hotusa", "email@hotusa.com");
+				OrdenTrabajo ot = gp.devolverGestorOrdenesTrabajo().crearOrdenTrabajo(e);
+				gp.vincularOrdenTrabajo(p, ot);
+					
+				//Act
+				ArrayList<Proceso> resultado = gp.consultarProcesos(null, fecha2, incidencia_proba ,responsable, EstadoAvance.EnTramite, ot);
+				
+				//Assert
+				assertTrue(resultado.isEmpty(), "Fallo al consultarProcesos con fechaIni nula y fechaFin anterior a fechaFin_proceso");
+			
 			}
 			
 			@DisplayName("CB-CP011-P8.2-consultarProcesos caso de prueba valido con fechas nulas e incidencias no coincidentes.")
