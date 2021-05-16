@@ -316,7 +316,6 @@ class TestGestionIncidencias {
 
 			@DisplayName("CP10-P1.1_buscarIncidencias no válido con parámetro tipo distinto de tipoIncidencia")
 			@Test
-			@Disabled
 			void CP10_P1_1_buscarIncidencias() {
 				// Arrange
 				GestionIncidencias gi = new GestionIncidencias();
