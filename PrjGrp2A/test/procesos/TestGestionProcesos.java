@@ -213,14 +213,12 @@ class TestGestionProcesos {
 								
 		gp.vincularOrdenTrabajo(p,ot);
 								
-		Date fecha = new Date("mala") ;  //ARREGLAR
 		Date fecha2 = new Date(2020-1900, 12, 12) ;
 										
 		//Act
-		ArrayList<Proceso> real = gp.consultarProcesos(fecha, fecha2, incidencia,responsable, EstadoAvance.EnTramite,ot);
-										
+		
 		//Assert
-		assertTrue(real.isEmpty(), "Fallo al consultarProcesos con parametro fechaIni incorrecto.");
+		assertThrows(IllegalArgumentException.class,() -> {Date fechaIni = new Date("mala");gp.consultarProcesos(fechaIni, fecha2,incidencia,responsable, EstadoAvance.EnTramite,ot);},"Se ha aceptado un tipo de parametro incorrecto para fechaIni" );
 	}
 	
 	@DisplayName("CP03-P2.1-consultarProcesos caso de prueba no valido con fechaIni posterior a fechaFin.")
