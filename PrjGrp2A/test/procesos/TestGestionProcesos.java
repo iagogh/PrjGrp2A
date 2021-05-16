@@ -1146,9 +1146,9 @@ class TestGestionProcesos {
 		@Nested
 		@DisplayName("Caja Negra")
 		class vincularIncidenciasCajaNegra {
-			@DisplayName("CP01-Prueba3.1_vincularIncidencia válido que incluye todas las clases válidas")
+			@DisplayName("CP01-P3.1_vincularIncidencia válido que incluye todas las clases válidas")
 			@Test
-			void CP01_Prueba3_3_vincularIncidencia() {
+			void CP01_P3_3_vincularIncidencia() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -1180,9 +1180,9 @@ class TestGestionProcesos {
 				});
 			}
 
-			@DisplayName("CP02-Prueba3.1_vincularIncidencia no válido con parámetro proceso incorrecto")
+			@DisplayName("CP02-P3.1_vincularIncidencia no válido con parámetro proceso incorrecto")
 			@Test
-			void CP02_Prueba3_3_vincularIncidencia() {
+			void CP02_P3_3_vincularIncidencia() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -1203,9 +1203,9 @@ class TestGestionProcesos {
 				assertNull(incidencia.getProceso(), "Prueba fallida, a la incidencia se le ha asignado un proceso");
 			}
 
-			@DisplayName("CP03-Prueba3.1_vincularIncidencia no válido con parámetro incidencias incorrecto")
+			@DisplayName("CP03-P3.1_vincularIncidencia no válido con parámetro incidencias incorrecto")
 			@Test
-			void CP03_Prueba3_3_vincularIncidencia() {
+			void CP03_P3_3_vincularIncidencia() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -1225,9 +1225,9 @@ class TestGestionProcesos {
 						"Prueba fallida, se han modificado las incidencias asignadas al proceso al vincular incidencias incorrectas");
 			}
 
-			@DisplayName("CP04-Prueba3.1_vincularIncidencia válido donde el primer y el último elemento del parámetro incidencias son correctos")
+			@DisplayName("CP04-P3.1_vincularIncidencia válido donde el primer y el último elemento del parámetro incidencias son correctos")
 			@Test
-			void CP04_Prueba3_3_vincularIncidencia() {
+			void CP04_P3_3_vincularIncidencia() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -1271,9 +1271,9 @@ class TestGestionProcesos {
 
 			}
 
-			@DisplayName("CP05-Prueba3.1_vincularIncidencia no válido donde el primer elemento del parámetro incidencias es incorrecto")
+			@DisplayName("CP05-P3.1_vincularIncidencia no válido donde el primer elemento del parámetro incidencias es incorrecto")
 			@Test
-			void CP05_Prueba3_3_vincularIncidencia() {
+			void CP05_P3_3_vincularIncidencia() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -1308,9 +1308,9 @@ class TestGestionProcesos {
 
 			}
 
-			@DisplayName("CP06-Prueba3.1_vincularIncidencia no válido con parámetro incidencias vacío")
+			@DisplayName("CP06-P3.1_vincularIncidencia no válido con parámetro incidencias vacío")
 			@Test
-			void CP06_Prueba3_3_vincularIncidencia() {
+			void CP06_P3_3_vincularIncidencia() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -1340,9 +1340,9 @@ class TestGestionProcesos {
 				});
 			}
 
-			@DisplayName("CP07-Prueba3.1_vincularIncidencia no válido con  incidencias repetidas iguales")
+			@DisplayName("CP07-P3.1_vincularIncidencia no válido con  incidencias repetidas iguales")
 			@Test
-			void CP07_Prueba3_3_vincularIncidencia() {
+			void CP07_P3_3_vincularIncidencia() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
@@ -1376,9 +1376,9 @@ class TestGestionProcesos {
 				});
 			}
 
-			@DisplayName("CP08-Prueba3.1_vincularIncidencia no válido, parámetro incidencias contiene incidencia ya asginada")
+			@DisplayName("CP08-P3.1_vincularIncidencia no válido, parámetro incidencias contiene incidencia ya asginada")
 			@Test
-			void CP08_Prueba3_3_vincularIncidencia() {
+			void CP08_P3_3_vincularIncidencia() {
 				// Arrange
 				GestionProcesos gp = new GestionProcesos();
 				GestionIncidencias gi = new GestionIncidencias();
