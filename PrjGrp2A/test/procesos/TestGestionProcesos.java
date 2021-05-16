@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import com.enso.ayuntamiento.Ciudadano;
@@ -19,27 +20,30 @@ import procesos.ordenesTrabajo.OrdenTrabajo;
 class TestGestionProcesos {
 
 	//////////////CAIXA NEGRA
-	@DisplayName("CP01-P9.2_crearNuevoProceso en el que se comprueba el funcionamiento de la creacion para unos parametros validos")
-	@Test
-	void CP01_Prueba9_2_crearNuevoProceso() {
-		//Arrange
-		GestionProcesos gp = new GestionProcesos();
-		String nombre = "Proceso de Prueba";
-		Concejal responsable = new Concejal("Pepe", "77777777Z", "Calle callejero", "666666666");
-		String descripcion = "Descripcion de prueba para la creacion de una incidencia de prueba";
-		ArrayList<Incidencia> incidencias = new ArrayList();
-		//Act
-		Proceso creado = gp.crearNuevoProceso(nombre, responsable, descripcion, incidencias);
-		ArrayList<Proceso> registrados = gp.procesos;
-		
-		//Assert
-		assertAll(
-				() -> {assertNotNull(creado,"Fallo al presentarIncidencia se ha recibido un nulo");},
-				() -> {assertTrue(registrados.size()==1, "Fallo al PresentarIncidencia se ha recibido un array de registradas vacío o con mas elementos de los esperados");},
-				() -> {assertSame(creado, registrados.get(0), "Fallo al presentarIncidencia el elemento recibido no se corresponde con el esperado");}
-				);
+	@Nested
+	@DisplayName("Prueba9.2:CrearNuevoProceso, Caso de prueba asociado a probar las clases de equivalencia válidas")
+	class crearProceso {
+		@DisplayName("CP01-P9.2_crearNuevoProceso en el que se comprueba el funcionamiento de la creacion para unos parametros validos")
+		@Test
+		void CP01_Prueba9_2_crearNuevoProceso() {
+			//Arrange
+			GestionProcesos gp = new GestionProcesos();
+			String nombre = "Proceso de Prueba";
+			Concejal responsable = new Concejal("Pepe", "77777777Z", "Calle callejero", "666666666");
+			String descripcion = "Descripcion de prueba para la creacion de una incidencia de prueba";
+			ArrayList<Incidencia> incidencias = new ArrayList();
+			//Act
+			Proceso creado = gp.crearNuevoProceso(nombre, responsable, descripcion, incidencias);
+			ArrayList<Proceso> registrados = gp.procesos;
+			
+			//Assert
+			assertAll(
+					() -> {assertNotNull(creado,"Fallo al presentarIncidencia se ha recibido un nulo");},
+					() -> {assertTrue(registrados.size()==1, "Fallo al PresentarIncidencia se ha recibido un array de registradas vacío o con mas elementos de los esperados");},
+					() -> {assertSame(creado, registrados.get(0), "Fallo al presentarIncidencia el elemento recibido no se corresponde con el esperado");}
+					);
+		}
 	}
-
 	@Test
 	void testVincularIncidencia() {
 		fail("Not yet implemented");
