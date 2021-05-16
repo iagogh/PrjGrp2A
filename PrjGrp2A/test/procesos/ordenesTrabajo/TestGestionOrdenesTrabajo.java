@@ -64,7 +64,6 @@ class TestGestionOrdenesTrabajo {
 				Proceso pro = null;
 				ArrayList<OrdenTrabajo> esperado = new ArrayList();
 				esperado.add(ot);
-				System.out.println(ot.getResponsable().getEmail());
 			
 				//Act
 				ArrayList<OrdenTrabajo> real = got.buscarOrdenes(fechaIni, fechaFin, res, pro);
@@ -269,9 +268,28 @@ class TestGestionOrdenesTrabajo {
 				assertTrue(real.isEmpty(),"Fallo al buscarOrdenes con Ot sin fecha de Inicio almacenada");
 			}
 			
-			@DisplayName("CB_CP03-P8.4-buscarOrdenes caso de prueba en el que hay una OT almacenada previamente con fecha de inicio posterior al parametro fechaFin")
+			@DisplayName("CB_CP03-P8.4-buscarOrdenes caso de prueba en el que hay una OT almacenada previamente y fechaIni == null")
 			@Test
 			void CB_CP03_Prueba8_4_buscarOrdenes() {
+				//Arrange
+				GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
+				OrdenTrabajo ot = got.crearOrdenTrabajo(new Empresa("Electricas Pepe", "pepe@gmail.com"));
+		
+				Date fechaIni = null ;
+				Date fechaFin = new Date(2021-1900, 12, 12) ;
+				Empresa res = null;
+				Proceso pro = null;
+				
+				//Act
+				ArrayList<OrdenTrabajo> real = got.buscarOrdenes(fechaIni, fechaFin, res, pro);
+				
+				//Assert
+				assertTrue(real.isEmpty(),"Fallo al buscarOrdenes con Ot con parametro fecha de fin posterior a todas las registradas");
+			}
+			
+			@DisplayName("CB_CP03-P8.4-buscarOrdenes caso de prueba en el que hay una OT almacenada previamente con fecha de inicio posterior al parametro fechaFin")
+			@Test
+			void CB_CP04_Prueba8_4_buscarOrdenes() {
 				//Arrange
 				GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
 				OrdenTrabajo ot = got.crearOrdenTrabajo(new Empresa("Electricas Pepe", "pepe@gmail.com"));
@@ -290,7 +308,7 @@ class TestGestionOrdenesTrabajo {
 			
 			@DisplayName("CB_CP04-P8.4-buscarOrdenes caso de prueba en el que hay una OT almacenada previamente con responsable y proceso igual a parametros pasados como filtro")
 			@Test
-			void CB_CP04_Prueba8_4_buscarOrdenes() {
+			void CB_CP05_Prueba8_4_buscarOrdenes() {
 				//Arrange
 				GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
 				Empresa e = new Empresa("Electricas Pepe", "pepe@gmail.com");
@@ -318,7 +336,7 @@ class TestGestionOrdenesTrabajo {
 			
 			@DisplayName("CB_CP05-P8.4-buscarOrdenes caso de prueba en el que hay una OT almacenada previamente con responsable igual a parametro pasado como filtro y parametro proceso a null")
 			@Test
-			void CB_CP05_Prueba8_4_buscarOrdenes() {
+			void CB_CP06_Prueba8_4_buscarOrdenes() {
 				//Arrange
 				GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
 				Empresa e = new Empresa("Electricas Pepe", "pepe@gmail.com");
@@ -346,7 +364,7 @@ class TestGestionOrdenesTrabajo {
 			
 			@DisplayName("CB_CP06-P8.4-buscarOrdenes caso de prueba en el que hay una OT almacenada previamente con responsable igual a parametro pasado como filtro y proceso distinto al pasado")
 			@Test
-			void CB_CP06_Prueba8_4_buscarOrdenes() {
+			void CB_CP07_Prueba8_4_buscarOrdenes() {
 				//Arrange
 				GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
 				Empresa e = new Empresa("Electricas Pepe", "pepe@gmail.com");
@@ -370,7 +388,7 @@ class TestGestionOrdenesTrabajo {
 			
 			@DisplayName("CB_CP07-P8.4-buscarOrdenes caso de prueba en el que hay una OT almacenada previamente con responsable distinto a parametro pasado como filtro siendo este nulo y proceso distinto al pasado como filtro")
 			@Test
-			void CB_CP07_Prueba8_4_buscarOrdenes() {
+			void CB_CP08_Prueba8_4_buscarOrdenes() {
 				//Arrange
 				GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
 				OrdenTrabajo ot = got.crearOrdenTrabajo(new Empresa("Electricas Pepe", "pepe@gmail.com"));
@@ -393,7 +411,7 @@ class TestGestionOrdenesTrabajo {
 			
 			@DisplayName("CB_CP08-P8.4-buscarOrdenes caso de prueba en el que hay una OT almacenada previamente con responsable distinto a parametro pasado como filtro")
 			@Test
-			void CB_CP08_Prueba8_4_buscarOrdenes() {
+			void CB_CP09_Prueba8_4_buscarOrdenes() {
 				//Arrange
 				GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
 				OrdenTrabajo ot = got.crearOrdenTrabajo(new Empresa("Electricas Pepe", "pepe@gmail.com"));
@@ -415,7 +433,7 @@ class TestGestionOrdenesTrabajo {
 			
 			@DisplayName("CB_CP09-P8.4-buscarOrdenes caso de prueba en el que hay 2 OTs almacenadas previamente la primera con responsable distinto a parametro pasado como filtro y la segunda el responsable coincide pero el proceso distinto del parametro pasado")
 			@Test
-			void CB_CP09_Prueba8_4_buscarOrdenes() {
+			void CB_CP10_Prueba8_4_buscarOrdenes() {
 				//Arrange
 				GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
 				
