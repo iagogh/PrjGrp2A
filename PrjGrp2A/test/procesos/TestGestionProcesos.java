@@ -46,13 +46,6 @@ class TestGestionProcesos {
 					);
 		}
 	}
-<<<<<<< HEAD
-=======
-	@Test
-	void testVincularIncidencia() {
-		fail("Not yet implemented");
-	}
->>>>>>> 7a52b436b98eb66af8c5d44d9b39d38bf2e6b342
 
 	@DisplayName("CP01-P4.1-vincularOrdenTrabajo caso de prueba valido con parametros validos")
 	@Test
