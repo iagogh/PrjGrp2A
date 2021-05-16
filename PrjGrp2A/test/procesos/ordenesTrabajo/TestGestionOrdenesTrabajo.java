@@ -123,6 +123,222 @@ class TestGestionOrdenesTrabajo {
 			
 				//Act
 
+<<<<<<< HEAD
+		Date fechaIni = new Date(2020-1900, 01, 02) ;
+		Date fechaFin = new Date(2021-1900, 01, 02) ;
+		Empresa res = null;
+		Proceso pro = null;
+		
+		//Act
+		ArrayList<OrdenTrabajo> real = got.buscarOrdenes(fechaIni, fechaFin, res, pro);
+		
+		//Assert
+		assertTrue(real.isEmpty(),"Fallo al buscarOrdenes con Ot con parametro fecha de fin posterior a todas las registradas");
+	}
+	
+	@DisplayName("CB_CP04-P8.4-buscarOrdenes caso de prueba en el que hay una OT almacenada previamente con responsable y proceso igual a parametros pasados como filtro")
+	@Test
+	void CB_CP04_Prueba8_4_buscarOrdenes() {
+		//Arrange
+		GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
+		OrdenTrabajo ot = got.crearOrdenTrabajo(new Empresa("Electricas Pepe", "pepe@gmail.com"));
+		GestionProcesos gp = new GestionProcesos();
+		Proceso p = gp.crearNuevoProceso("Ptest", null, "test", new ArrayList());
+		gp.vincularOrdenTrabajo(p, ot);
+		
+		
+		Date fechaIni = new Date(2021-1900, 01, 02) ;
+		Date fechaFin = new Date(2021-1900, 12, 12) ;
+		Empresa res = new Empresa("Electricas Pepe", "pepe@gmail.com");
+		Proceso pro = p;
+		
+		//Act
+		ArrayList<OrdenTrabajo> real = got.buscarOrdenes(fechaIni, fechaFin, res, pro);
+		
+		//Assert
+		assertAll(
+				() -> {assertNotNull(real,"Fallo al buscarOrdenes se ha recibido un nulo");},
+				() -> {assertTrue(real.size()==1, "Fallo al buscarOrdenes con OT se ha recibido un array vacío o con mas elementos de los esperados");},
+				() -> {assertSame(ot, real.get(0), "Fallo al buscarOrdenes el elemento recibido no se corresponde con el esperado");}
+				);
+	}
+	
+	@DisplayName("CB_CP05-P8.4-buscarOrdenes caso de prueba en el que hay una OT almacenada previamente con responsable igual a parametro pasado como filtro y parametro proceso a null")
+	@Test
+	void CB_CP05_Prueba8_4_buscarOrdenes() {
+		//Arrange
+		GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
+		OrdenTrabajo ot = got.crearOrdenTrabajo(new Empresa("Electricas Pepe", "pepe@gmail.com"));
+		GestionProcesos gp = new GestionProcesos();
+		Proceso p = gp.crearNuevoProceso("Ptest", null, "test", new ArrayList());
+		gp.vincularOrdenTrabajo(p, ot);
+		
+		Date fechaIni = new Date(2021-1900, 01, 02) ;
+		Date fechaFin = new Date(2021-1900, 12, 12) ;
+		Empresa res = new Empresa("Electricas Pepe", "pepe@gmail.com");
+		Proceso pro = null;
+		
+		
+		//Act
+		ArrayList<OrdenTrabajo> real = got.buscarOrdenes(fechaIni, fechaFin, res, pro);
+		
+		//Assert
+		assertAll(
+				() -> {assertNotNull(real,"Fallo al buscarOrdenes se ha recibido un nulo");},
+				() -> {assertTrue(real.size()==1, "Fallo al buscarOrdenes con OT se ha recibido un array vacío o con mas elementos de los esperados");},
+				() -> {assertSame(ot, real.get(0), "Fallo al buscarOrdenes el elemento recibido no se corresponde con el esperado");}
+				);
+	}
+	
+	@DisplayName("CB_CP06-P8.4-buscarOrdenes caso de prueba en el que hay una OT almacenada previamente con responsable igual a parametro pasado como filtro y proceso distinto al pasado")
+	@Test
+	void CB_CP06_Prueba8_4_buscarOrdenes() {
+		//Arrange
+		GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
+		OrdenTrabajo ot = got.crearOrdenTrabajo(new Empresa("Electricas Pepe", "pepe@gmail.com"));
+		GestionProcesos gp = new GestionProcesos();
+		Proceso p = gp.crearNuevoProceso("Ptest", null, "test", new ArrayList());
+		gp.vincularOrdenTrabajo(p, ot);
+		
+		Date fechaIni = new Date(2021-1900, 01, 02) ;
+		Date fechaFin = new Date(2021-1900, 12, 12) ;
+		Empresa res = new Empresa("Electricas Pepe", "pepe@gmail.com");
+		Proceso pro = new Proceso("Ptest2",null,"test");
+		
+		
+		//Act
+		ArrayList<OrdenTrabajo> real = got.buscarOrdenes(fechaIni, fechaFin, res, pro);
+		
+		//Assert
+		assertTrue(real.isEmpty(), "Fallo al buscar Ordenes de Trabajo el resultado no es vacio");
+	}
+	
+	@DisplayName("CB_CP07-P8.4-buscarOrdenes caso de prueba en el que hay una OT almacenada previamente con responsable distinto a parametro pasado como filtro siendo este nulo y proceso distinto al pasado como filtro")
+	@Test
+	void CB_CP07_Prueba8_4_buscarOrdenes() {
+		//Arrange
+		GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
+		OrdenTrabajo ot = got.crearOrdenTrabajo(new Empresa("Electricas Pepe", "pepe@gmail.com"));
+		GestionProcesos gp = new GestionProcesos();
+		Proceso p = gp.crearNuevoProceso("Ptest", null, "test", new ArrayList());
+		gp.vincularOrdenTrabajo(p, ot);
+		
+		Date fechaIni = new Date(2021-1900, 01, 02) ;
+		Date fechaFin = new Date(2021-1900, 12, 12) ;
+		Empresa res = null;
+		Proceso pro = new Proceso("Ptest2",null,"test");
+		
+		
+		//Act
+		ArrayList<OrdenTrabajo> real = got.buscarOrdenes(fechaIni, fechaFin, res, pro);
+		
+		//Assert
+		assertTrue(real.isEmpty(), "Fallo al buscar Ordenes de Trabajo el resultado no es vacio");
+	}
+	
+	@DisplayName("CB_CP08-P8.4-buscarOrdenes caso de prueba en el que hay una OT almacenada previamente con responsable distinto a parametro pasado como filtro")
+	@Test
+	void CB_CP08_Prueba8_4_buscarOrdenes() {
+		//Arrange
+		GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
+		OrdenTrabajo ot = got.crearOrdenTrabajo(new Empresa("Electricas Pepe", "pepe@gmail.com"));
+		GestionProcesos gp = new GestionProcesos();
+		Proceso p = gp.crearNuevoProceso("Ptest", null, "test", new ArrayList());
+		gp.vincularOrdenTrabajo(p, ot);
+		
+		Date fechaIni = new Date(2021-1900, 01, 02) ;
+		Date fechaFin = new Date(2021-1900, 12, 12) ;
+		Empresa res = new Empresa("Distinto", "distinto@gmail.com");
+		Proceso pro = null;
+		
+		//Act
+		ArrayList<OrdenTrabajo> real = got.buscarOrdenes(fechaIni, fechaFin, res, pro);
+		
+		//Assert
+		assertTrue(real.isEmpty(), "Fallo al buscar Ordenes de Trabajo el resultado no es vacio");
+	}
+	
+	@DisplayName("CB_CP09-P8.4-buscarOrdenes caso de prueba en el que hay 2 OTs almacenadas previamente la primera con responsable distinto a parametro pasado como filtro y la segunda el responsable coincide pero el proceso distinto del parametro pasado")
+	@Test
+	void CB_CP09_Prueba8_4_buscarOrdenes() {
+		//Arrange
+		GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
+		
+		OrdenTrabajo ot = got.crearOrdenTrabajo(new Empresa("Electricas Pepe", "pepe@gmail.com"));
+		GestionProcesos gp = new GestionProcesos();
+		Proceso p = gp.crearNuevoProceso("Ptest", null, "test", new ArrayList());
+		gp.vincularOrdenTrabajo(p, ot);
+		
+		Proceso p2 = gp.crearNuevoProceso("Ptest2", null, "test2", new ArrayList());
+		OrdenTrabajo ot2 = got.crearOrdenTrabajo(new Empresa("Distinto", "distinto@gmail.com"));
+		gp.vincularOrdenTrabajo(p2, ot2);
+		
+		Date fechaIni = new Date(2021-1900, 01, 02) ;
+		Date fechaFin = new Date(2021-1900, 12, 12) ;
+		Empresa res = new Empresa("Distinto", "distinto@gmail.com");
+		Proceso pro = p;
+		
+		//Act
+		ArrayList<OrdenTrabajo> real = got.buscarOrdenes(fechaIni, fechaFin, res, pro);
+		
+		//Assert
+		assertTrue(real.isEmpty(), "Fallo al buscar Ordenes de Trabajo el resultado no es vacio");
+	}
+	
+	
+	//A PARTIR DE AQU� NADA TEN XEITO, PERO POR CULPA DO SEU C�DIGO, NO MI�A
+	//Para aclarar, no creador/constructor de ot pasan unha empresa responsable
+	//Peeero, sen embargo, te�en un asignar responsable, as� que estar�an facendo d�as veces un set de responsable
+	//NADA TEN XEITO, TODO DA ASCO
+	@DisplayName("CP01-P6.1-asignarResponsable caso de prueba valido con parametros validos.")
+	@Test
+	void CP01_Prueba6_1_asignarResponsable() {
+		//Arrange
+		GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
+		Empresa responsable=new Empresa("Electricas Pepe", "pepe@gmail.com");
+		
+		OrdenTrabajo ot = got.crearOrdenTrabajo(responsable);  //Asignase duas veces, but idk
+		
+		//Act
+		got.asignarResponsable(ot, responsable);
+		
+		//Assert
+		assertEquals(ot.getResponsable(),responsable,"Fallo al asignarResponsable, mal asignado responsable");
+	}
+	
+	@DisplayName("CP02-P6.1-asignarResponsable caso de prueba no valido con ordenTrabajo no valida.")
+	@Test
+	void CP02_Prueba6_1_asignarResponsable() {
+		//Arrange
+		GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
+		Empresa responsable=new Empresa("Electricas Pepe", "pepe@gmail.com");
+				
+		OrdenTrabajo ot = got.crearOrdenTrabajo(null);
+		ot.setEstado(null);
+		ot.setMaterial(null);
+				
+		//Act
+		got.asignarResponsable(ot, responsable);
+		
+		//Assert
+		assertNull(ot.getResponsable(), "Prueba fallida, a la orden de trabajo se le ha asignado un responsable");	
+	}
+	
+	@DisplayName("CP03-P6.1-asignarResponsable caso de prueba no valido con responsable no valido.")
+	@Test
+	void CP03_Prueba6_1_asignarResponsable() {
+		//Arrange
+		GestionOrdenesTrabajo got = new GestionOrdenesTrabajo();
+		Empresa responsable=new Empresa(null, null);
+				
+		OrdenTrabajo ot = got.crearOrdenTrabajo(null);
+				
+		//Act
+		got.asignarResponsable(ot, responsable);
+		
+		//Assert
+		assertNull(ot.getResponsable(), "Prueba fallida, a la orden de trabajo se le ha asignado un responsable");	
+=======
 				
 				//Assert
 				assertThrows(IllegalArgumentException.class,() -> {Date fechaFin = new Date("mala");got.buscarOrdenes(fechaIni, fechaFin, res, pro);},"Se ha aceptado un tipo de parametro incorrecto para fechaIni" );
@@ -460,6 +676,7 @@ class TestGestionOrdenesTrabajo {
 			}
 		}
 	
+>>>>>>> 7a52b436b98eb66af8c5d44d9b39d38bf2e6b342
 	}
 	
 	
