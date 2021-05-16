@@ -12,7 +12,9 @@ import org.junit.jupiter.api.Test;
 import com.enso.ayuntamiento.Ciudadano;
 import com.enso.ayuntamiento.Concejal;
 
+import incidencias.GestionIncidencias;
 import incidencias.Incidencia;
+import incidencias.TipoIncidencia;
 import procesos.ordenesTrabajo.Empresa;
 import procesos.ordenesTrabajo.GestionOrdenesTrabajo;
 import procesos.ordenesTrabajo.OrdenTrabajo;
@@ -1135,5 +1137,280 @@ class TestGestionProcesos {
 		
 		//Assert
 		assertTrue(resultado.isEmpty(), "Fallo al consultarProcesos con todo nulo excepto OT, y no coincidente");
+	}
+	
+	@Nested
+	@DisplayName("Casos de prueba: vincularIncidencias")
+	class vincularIncidencias {
+
+		@Nested
+		@DisplayName("Caja Negra")
+		class vincularIncidenciasCajaNegra {
+			@DisplayName("CP01-Prueba3.1_vincularIncidencia válido que incluye todas las clases válidas")
+			@Test
+			void CP01_Prueba3_3_vincularIncidencia() {
+				// Arrange
+				GestionProcesos gp = new GestionProcesos();
+				GestionIncidencias gi = new GestionIncidencias();
+
+				String localizacion = "Calle Callejero";
+				String descripcion = "Descripcion de prueba para la creacion de una incidencia de prueba";
+
+				Ciudadano vecino = new Ciudadano("Raul", "12345678P", "Calle callejero", "666666666");
+				Incidencia incidencia = gi.presentarIncidencia(vecino, localizacion, descripcion,
+						TipoIncidencia.Desperfectos);
+				ArrayList<Incidencia> incidencias = gi.incidenciasSinProceso();
+
+				Concejal responsable = new Concejal("Javier", "45959101H", "Santiago", "666666666");
+				Proceso proceso = gp.crearNuevoProceso("Cambiar bombillas", responsable,
+						"Hay que cambiar las bombillas", new ArrayList<Incidencia>());
+
+				// Act
+				gp.vincularIncidencia(proceso, incidencias);
+				// Assert
+				assertAll(() -> {
+					assertTrue(!proceso.getIncidencias().isEmpty(),
+							"Prueba fallida, no hay ninguna incidencia asignada al proceso");
+				}, () -> {
+					assertNotNull(incidencia.getProceso(),
+							"Prueba fallida, la incidencia no tiene ningún proceso asignado");
+				}, () -> {
+					assertEquals(proceso, incidencia.getProceso(),
+							"Prueba fallida, no se ha asignado al proceso la incidencia correcta");
+				});
+			}
+
+			@DisplayName("CP02-Prueba3.1_vincularIncidencia no válido con parámetro proceso incorrecto")
+			@Test
+			void CP02_Prueba3_3_vincularIncidencia() {
+				// Arrange
+				GestionProcesos gp = new GestionProcesos();
+				GestionIncidencias gi = new GestionIncidencias();
+
+				String localizacion = "Calle Callejero";
+				String descripcion = "Descripcion de prueba para la creacion de una incidencia de prueba";
+
+				Ciudadano vecino = new Ciudadano("Raul", "12345678P", "Calle callejero", "666666666");
+				Incidencia incidencia = gi.presentarIncidencia(vecino, localizacion, descripcion,
+						TipoIncidencia.Desperfectos);
+				ArrayList<Incidencia> incidencias = gi.incidenciasSinProceso();
+
+				Concejal responsable = new Concejal("Javier", "45959101H", "Santiago", "666666666");
+				Proceso proceso = new Proceso("Proceso Incorrecto", null, null);
+				// Act
+				gp.vincularIncidencia(proceso, incidencias);
+				// Assert
+				assertNull(incidencia.getProceso(), "Prueba fallida, a la incidencia se le ha asignado un proceso");
+			}
+
+			@DisplayName("CP03-Prueba3.1_vincularIncidencia no válido con parámetro incidencias incorrecto")
+			@Test
+			void CP03_Prueba3_3_vincularIncidencia() {
+				// Arrange
+				GestionProcesos gp = new GestionProcesos();
+				GestionIncidencias gi = new GestionIncidencias();
+
+				ArrayList<Incidencia> incidencias = new ArrayList<>();
+				incidencias.add(new Incidencia(null, "Incidencia Incorrecta", null));
+				Concejal responsable = new Concejal("Javier", "45959101H", "Santiago", "666666666");
+
+				Proceso proceso = gp.crearNuevoProceso("Cambiar bombillas", responsable,
+						"Hay que cambiar las bombillas", new ArrayList<Incidencia>());
+				ArrayList<Incidencia> incidenciasAntes = proceso.getIncidencias();
+				// Act
+				gp.vincularIncidencia(proceso, incidencias);
+				ArrayList<Incidencia> incidenciasDespues = proceso.getIncidencias();
+				// Assert
+				assertEquals(incidenciasAntes, incidenciasDespues,
+						"Prueba fallida, se han modificado las incidencias asignadas al proceso al vincular incidencias incorrectas");
+			}
+
+			@DisplayName("CP04-Prueba3.1_vincularIncidencia válido donde el primer y el último elemento del parámetro incidencias son correctos")
+			@Test
+			void CP04_Prueba3_3_vincularIncidencia() {
+				// Arrange
+				GestionProcesos gp = new GestionProcesos();
+				GestionIncidencias gi = new GestionIncidencias();
+
+				String localizacion = "Calle Callejero";
+				String descripcion = "Descripcion de prueba para la creacion de una incidencia de prueba";
+
+				ArrayList<Incidencia> esperado = new ArrayList<>();
+				ArrayList<Incidencia> incidencias = new ArrayList<>();
+				Ciudadano vecino = new Ciudadano("Raul", "12345678P", "Calle callejero", "666666666");
+				Incidencia incidencia = gi.presentarIncidencia(vecino, localizacion, descripcion,
+						TipoIncidencia.Desperfectos);
+				incidencias.add(incidencia);
+				esperado.add(incidencia);
+				vecino = new Ciudadano("Pepe", "77777777Z", "Calle callejero", "666555555");
+				incidencia = gi.presentarIncidencia(vecino, localizacion, descripcion, TipoIncidencia.Servicios);
+				incidencias.add(null);
+				vecino = new Ciudadano("Jose", "66666666F", "Calle callejero", "666444555");
+				incidencia = gi.presentarIncidencia(vecino, "Otra Calle", descripcion, TipoIncidencia.Transportes);
+				incidencias.add(incidencia);
+				esperado.add(incidencia);
+
+				Concejal responsable = new Concejal("Javier", "45959101H", "Santiago", "666666666");
+				Proceso proceso = gp.crearNuevoProceso("Cambiar bombillas", responsable,
+						"Hay que cambiar las bombillas", new ArrayList<Incidencia>());
+
+				// Act
+				gp.vincularIncidencia(proceso, incidencias);
+				ArrayList<Incidencia> obtenido = proceso.getIncidencias();
+				// Assert
+				assertAll(() -> {
+					assertTrue(obtenido.contains(incidencias.get(0)),
+							"Prueba fallida, no se ha asignado el primer elemento");
+				}, () -> {
+					assertTrue(obtenido.contains(incidencias.get(incidencias.size() - 1)),
+							"Prueba Fallida, no se ha asignado el último elemento");
+				}, () -> {
+					assertEquals(esperado, obtenido,
+							"Prueba fallida, se han vinculado al proceso incidencias incorrectas");
+				});
+
+			}
+
+			@DisplayName("CP05-Prueba3.1_vincularIncidencia no válido donde el primer elemento del parámetro incidencias es incorrecto")
+			@Test
+			void CP05_Prueba3_3_vincularIncidencia() {
+				// Arrange
+				GestionProcesos gp = new GestionProcesos();
+				GestionIncidencias gi = new GestionIncidencias();
+
+				String localizacion = "Calle Callejero";
+				String descripcion = "Descripcion de prueba para la creacion de una incidencia de prueba";
+
+				ArrayList<Incidencia> esperado = new ArrayList<>();
+				ArrayList<Incidencia> incidencias = new ArrayList<>();
+				Ciudadano vecino = new Ciudadano("Raul", "12345678P", "Calle callejero", "666666666");
+				Incidencia incidencia = gi.presentarIncidencia(vecino, localizacion, descripcion,
+						TipoIncidencia.Desperfectos);
+				incidencias.add(null);
+				vecino = new Ciudadano("Pepe", "77777777Z", "Calle callejero", "666555555");
+				incidencia = gi.presentarIncidencia(vecino, localizacion, descripcion, TipoIncidencia.Servicios);
+				incidencias.add(incidencia);
+				esperado.add(incidencia);
+				vecino = new Ciudadano("Jose", "66666666F", "Calle callejero", "666444555");
+				incidencia = gi.presentarIncidencia(vecino, "Otra Calle", descripcion, TipoIncidencia.Transportes);
+				incidencias.add(incidencia);
+				esperado.add(incidencia);
+
+				Concejal responsable = new Concejal("Javier", "45959101H", "Santiago", "666666666");
+				Proceso proceso = gp.crearNuevoProceso("Cambiar bombillas", responsable,
+						"Hay que cambiar las bombillas", new ArrayList<Incidencia>());
+
+				// Act
+				gp.vincularIncidencia(proceso, incidencias);
+				ArrayList<Incidencia> obtenido = proceso.getIncidencias();
+				// Assert
+				assertEquals(esperado, obtenido, "Prueba fallida, se han vinculado al proceso incidencias incorrectas");
+
+			}
+
+			@DisplayName("CP06-Prueba3.1_vincularIncidencia no válido con parámetro incidencias vacío")
+			@Test
+			void CP06_Prueba3_3_vincularIncidencia() {
+				// Arrange
+				GestionProcesos gp = new GestionProcesos();
+				GestionIncidencias gi = new GestionIncidencias();
+
+				String localizacion = "Calle Callejero";
+				String descripcion = "Descripcion de prueba para la creacion de una incidencia de prueba";
+
+				Ciudadano vecino = new Ciudadano("Raul", "12345678P", "Calle callejero", "666666666");
+				Incidencia incidencia = gi.presentarIncidencia(vecino, localizacion, descripcion,
+						TipoIncidencia.Desperfectos);
+				Concejal responsable = new Concejal("Javier", "45959101H", "Santiago", "666666666");
+				Proceso proceso = gp.crearNuevoProceso("Cambiar bombillas", responsable,
+						"Hay que cambiar las bombillas", new ArrayList<Incidencia>());
+
+				ArrayList<Incidencia> incidencias = new ArrayList<>();
+				ArrayList<Incidencia> incidenciasAntes = proceso.getIncidencias();
+				// Act
+				gp.vincularIncidencia(proceso, incidencias);
+				ArrayList<Incidencia> incidenciasDespues = proceso.getIncidencias();
+				// Assert
+				assertAll(() -> {
+					assertNull(incidencia.getProceso(),
+							"Prueba fallida, a la incidencia existente se le ha asignado un proceso");
+				}, () -> {
+					assertEquals(incidenciasAntes, incidenciasDespues,
+							"Prueba fallida, las incidencias asignadas al proceso indicado se han modificado");
+				});
+			}
+
+			@DisplayName("CP07-Prueba3.1_vincularIncidencia no válido con  incidencias repetidas iguales")
+			@Test
+			void CP07_Prueba3_3_vincularIncidencia() {
+				// Arrange
+				GestionProcesos gp = new GestionProcesos();
+				GestionIncidencias gi = new GestionIncidencias();
+
+				String localizacion = "Calle Callejero";
+				String descripcion = "Descripcion de prueba para la creacion de una incidencia de prueba";
+
+				Ciudadano vecino = new Ciudadano("Raul", "12345678P", "Calle callejero", "666666666");
+				Incidencia incidencia = gi.presentarIncidencia(vecino, localizacion, descripcion,
+						TipoIncidencia.Desperfectos);
+				ArrayList<Incidencia> incidencias = new ArrayList<>();
+				incidencias.add(incidencia);
+				incidencias.add(incidencia);
+				ArrayList<Incidencia> esperado = new ArrayList<>();
+				esperado.add(incidencia);
+
+				Concejal responsable = new Concejal("Javier", "45959101H", "Santiago", "666666666");
+				Proceso proceso = gp.crearNuevoProceso("Cambiar bombillas", responsable,
+						"Hay que cambiar las bombillas", new ArrayList<Incidencia>());
+
+				// Act
+				gp.vincularIncidencia(proceso, incidencias);
+				ArrayList<Incidencia> obtenido = proceso.getIncidencias();
+				// Assert
+				assertAll(() -> {
+					assertEquals(proceso, incidencia.getProceso(),
+							"Prueba fallida, a la incidencia se le ha asignado otro proceso");
+				}, () -> {
+					assertEquals(obtenido, esperado,
+							"Prueba fallida, no se han obtenido las incidencias vinculadas al proceso esperadas");
+				});
+			}
+
+			@DisplayName("CP08-Prueba3.1_vincularIncidencia no válido, parámetro incidencias contiene incidencia ya asginada")
+			@Test
+			void CP08_Prueba3_3_vincularIncidencia() {
+				// Arrange
+				GestionProcesos gp = new GestionProcesos();
+				GestionIncidencias gi = new GestionIncidencias();
+
+				String localizacion = "Calle Callejero";
+				String descripcion = "Descripcion de prueba para la creacion de una incidencia de prueba";
+
+				Ciudadano vecino = new Ciudadano("Raul", "12345678P", "Calle callejero", "666666666");
+				Incidencia incidencia = gi.presentarIncidencia(vecino, localizacion, descripcion,
+						TipoIncidencia.Desperfectos);
+				ArrayList<Incidencia> incidencias = new ArrayList<>();
+				incidencias.add(incidencia);
+
+				Concejal responsable = new Concejal("Javier", "45959101H", "Santiago", "666666666");
+				Proceso procesoAntiguo = gp.crearNuevoProceso("Cambiar bombillas", responsable,
+						"Hay que cambiar las bombillas", new ArrayList<Incidencia>());
+				gp.vincularIncidencia(procesoAntiguo, incidencias);
+
+				Proceso procesoNuevo = gp.crearNuevoProceso("Volver a cambiar las bombillas", responsable,
+						"Volver a cambiar las bombillas cambidasas la úlima vez", new ArrayList<Incidencia>());
+
+				// Act
+				gp.vincularIncidencia(procesoNuevo, incidencias);
+				// Assert
+				assertAll(() -> {
+					assertNotEquals(procesoAntiguo.getIncidencias(), procesoNuevo.getIncidencias(),
+							"Prueba fallida, las incidencias están vinculadas a más de un proceso");
+				}, () -> {
+					assertNotEquals(procesoNuevo, incidencia.getProceso(),
+							"Prueba fallida, se ha asignado la incidencia al nuevo proceso");
+				});
+			}
+		}
 	}
 }
